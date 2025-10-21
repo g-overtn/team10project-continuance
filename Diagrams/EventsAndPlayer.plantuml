@@ -1,0 +1,60 @@
+@startuml EventsAndPlayer
+
+class Player {
+    - startPos : int[2]
+    - pos : int[2]
+    - speed : int
+    + setPos(int[2] pos)
+    + setSpeed(int speed)
+    + getPos()
+    + move(playerMove)
+}
+
+class Event {
+    - eventID : String
+    - roomNum : int
+    - eventFinished : Boolean
+    + generateRoomNum()
+    + getRoom()
+    + getID()
+    + isFinished()
+    + updateTimer(int time)
+    + updateScore(int score)
+    + updatePlayerSpeed(int speed)
+    + updatePlayerPosition(int[2] pos)
+    + removeEvent(eventFinished)
+}
+
+class Positive {
+    + {abstract} rewardPlayer()
+}
+
+class Hidden {
+    + eventTriggered : Boolean
+    + {abstract} displayEvent(eventTriggered)
+}
+
+class Negative {
+    + {abstract} delayPlayer()
+}
+
+enum PlayerMove {
+    W = player.up
+    A = player.left
+    S = player.down
+    D = player.right
+}
+
+Note right of Event
+Each subclass contains abstract method
+to be implemented for each instatiation,
+using superclass methods.
+end note
+
+Event <|--- Positive : extends
+Event <|--- Hidden : extends
+Event <|--- Negative : extends
+Event -- Player : updates
+Player *-- PlayerMove : has
+
+@enduml
