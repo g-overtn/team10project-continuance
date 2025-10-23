@@ -1,4 +1,3 @@
-
 @startuml RoomManager
 
 class RoomManager {
@@ -104,6 +103,42 @@ end note
 Event <|--- Positive : extends
 Event <|--- Hidden : extends
 Event <|--- Negative : extends
+Event -- Player : updates
+Player *-- PlayerMove : has
+
+class ScoreManager {
+    -Timer : Timer 
+    -Events : Events
+    -FinalScore : FinalScore 
+    +StartGame()
+    +EndGame()
+    +RecordEvent(Event)
+    +CalculateFinalScore()
+    +Reset()
+}
+
+class FinalScore {
+    -TimeScore : int
+    -EventScore : int
+    -TotalScore : int
+    +calculate(time : float, EventsScoreSum : int)
+}
+
+class Timer {
+    -StartTimer : float
+    -EndTimer : float
+    +start()
+    +stop()
+    +getElapsedTime()
+
+}
+
+Event -- ScoreManager : updates
+ScoreManager "1" *-- "1..*" FinalScore : manages >
+ScoreManager "1" *-- "4" Timer : uses >
+
+
+@enduml
 Event -- Player : updates
 Player *-- PlayerMove : has
 
