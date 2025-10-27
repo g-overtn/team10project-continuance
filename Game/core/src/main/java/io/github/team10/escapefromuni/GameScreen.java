@@ -2,7 +2,6 @@ package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /**
@@ -13,15 +12,17 @@ import com.badlogic.gdx.utils.ScreenUtils;
  */
 public class GameScreen extends ScreenAdapter {
     final EscapeGame game;
-    Texture backgroundTexture;
     Player player;
+    RoomManager roomManager;
 
     public GameScreen(final EscapeGame game)
     {
         this.game = game;
-        backgroundTexture = new Texture("TempBackground.png");
 
-        player = new Player(5f, game);
+        roomManager = new RoomManager(game);
+        roomManager.initialiseMap();
+
+        player = new Player(3f, game);
     }
 
     @Override
@@ -42,9 +43,8 @@ public class GameScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
 		game.batch.begin();
 
-        float worldWidth = game.viewport.getWorldWidth();
-		float worldHeight = game.viewport.getWorldHeight();
-        game.batch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight);
+        roomManager.drawMap();
+
         player.draw();
 
         game.batch.end();

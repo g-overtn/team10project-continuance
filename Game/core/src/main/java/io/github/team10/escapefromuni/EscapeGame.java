@@ -21,7 +21,7 @@ public class EscapeGame extends Game {
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
-        viewport = new FitViewport(8, 5);
+        viewport = new FitViewport(16, 9);
 
         // Scale font to viewport
         font.setUseIntegerPositions(false);
