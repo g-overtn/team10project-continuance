@@ -1,0 +1,65 @@
+@startuml AudioManager
+
+class AudioManager {
+    - currentAudio: AudioClip
+    - audioLevel: int
+    - isPlaying: boolean
+    + playMainMenuMusic()
+    + playGameplayMusic()
+    + stopMusic()
+    + playInteractionChime()
+    + playPositiveEventSound()
+    + playNegativeEventSound()
+    + setAudioLevel(level: int)
+    + getAudioLevel()
+    + muteAudio()
+    + unmuteAudio()
+}
+
+class AudioClip {
+    - clipName: String
+    - filePath: String
+    - volume: float
+    + play()
+    + stop()
+    + pause()
+    + setVolume(volume: float)
+}
+
+enum AudioType {
+    MAIN_MENU_MUSIC
+    GAMEPLAY_MUSIC
+    INTERACTION_CHIME
+    POSITIVE_EVENT_CHIME
+    NEGATIVE_EVENT_CHIME
+}
+
+note right of AudioManager
+Manages all audio in the game.
+Different audio for different contexts:
+- Main Menu: background music
+- Gameplay: different background music
+- Pause Menu: no audio (music stops)
+- Interactions: chime sound effect
+- Events: positive/negative sound effects
+end note
+
+note right of AudioType
+Audio types for different game states:
+MAIN_MENU_MUSIC - plays in main menu
+GAMEPLAY_MUSIC - plays during game
+INTERACTION_CHIME - player interaction sound
+POSITIVE_EVENT - completion of positive event
+NEGATIVE_EVENT - completion of negative event
+end note
+
+AudioManager "1" *-- "1..*" AudioClip : manages >
+AudioManager "1" --> "1" AudioType : uses >
+MainMenu -- AudioManager : triggers menu music >
+RoomManager -- AudioManager : triggers gameplay music >
+PauseMenu -- AudioManager : stops music >
+Player -- AudioManager : triggers chime >
+Positive -- AudioManager : triggers sound >
+Negative -- AudioManager : triggers sound >
+
+@enduml

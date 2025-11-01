@@ -1,11 +1,119 @@
-@startuml RoomManager
+@startuml
+' ===== MENU SYSTEM =====
+class MainMenu {
+    - backgroundImage: Image
+    + display()
+    + onStartGame()
+    + onTutorial()
+    + onSettings()
+    + onExit()
+}
 
+class PauseMenu {
+    - pausedTime: int
+    + display()
+    + showPausedTimer(time: int)
+    + onResume()
+    + onSettings()
+    + onExit()
+}
+
+class TutorialPage {
+    - tutorialImage: Image
+    + display()
+    + onEscPress()
+}
+
+class SettingsPage {
+    - audioLevel: int
+    + display()
+    + adjustAudioLevel(level: int)
+    + getAudioLevel()
+    + onBack()
+}
+
+note right of MainMenu
+Displayed on game launch.
+Shows background image with menu options:
+Start Game, Tutorial, Settings, Exit.
+Click on options to proceed.
+end note
+
+note right of PauseMenu
+Triggered by ESC key during gameplay.
+Shows paused timer and menu options:
+Resume, Settings, Exit.
+Click on options to proceed.
+end note
+
+note right of TutorialPage
+Displays tutorial image.
+ESC key returns to main menu.
+end note
+
+' ===== AUDIO SYSTEM =====
+class AudioManager {
+    - currentAudio: AudioClip
+    - audioLevel: int
+    - isPlaying: boolean
+    + playMainMenuMusic()
+    + playGameplayMusic()
+    + stopMusic()
+    + playInteractionChime()
+    + playPositiveEventSound()
+    + playNegativeEventSound()
+    + setAudioLevel(level: int)
+    + getAudioLevel()
+    + muteAudio()
+    + unmuteAudio()
+}
+
+class AudioClip {
+    - clipName: String
+    - filePath: String
+    - volume: float
+    + play()
+    + stop()
+    + pause()
+    + setVolume(volume: float)
+}
+
+enum AudioType {
+    MAIN_MENU_MUSIC
+    GAMEPLAY_MUSIC
+    INTERACTION_CHIME
+    POSITIVE_EVENT_CHIME
+    NEGATIVE_EVENT_CHIME
+}
+
+note right of AudioManager
+Manages all audio in the game.
+Different audio for different contexts:
+- Main Menu: background music
+- Gameplay: different background music
+- Pause Menu: no audio (music stops)
+- Interactions: chime sound effect
+- Events: positive/negative sound effects
+end note
+
+note right of AudioType
+Audio types for different game states:
+MAIN_MENU_MUSIC - plays in main menu
+GAMEPLAY_MUSIC - plays during game
+INTERACTION_CHIME - player interaction sound
+POSITIVE_EVENT - completion of positive event
+NEGATIVE_EVENT - completion of negative event
+end note
+
+' ===== ROOM MANAGEMENT SYSTEM =====
 class RoomManager {
     - startingRoom: Room
     - currentRoom: Room
     - doors: Door[4]
     + initialiseMap()
     + changeRoom(direction: DoorDirection)
+    + pauseGame()
+    + resumeGame()
     - unloadCurrentRoom()
     - initialiseDoors()
     - updateDoors()
@@ -32,8 +140,6 @@ Persistent object.
 Visibility toggled per room.
 end note
 
-class EventType
-
 enum DoorDirection {
     NORTH = 0
     EAST = 1
@@ -41,14 +147,7 @@ enum DoorDirection {
     WEST = 3
 }
 
-RoomManager "1" *-- "1..*" Room : manages >
-RoomManager "1" *-- "4" Door : controls >
-Room "1" --> "1" RoomManager
-Door "1" --> "1" RoomManager
-Room "1..4" -- "1..4" Room : adjacentRooms
-Room "1" *-- "0..1" Event : owns >
-Door "1" --> "1" DoorDirection : has >
-
+' ===== PLAYER AND EVENTS =====
 class Player {
     - startPos : int[2]
     - pos : int[2]
@@ -100,12 +199,7 @@ to be implemented for each instatiation,
 using superclass methods.
 end note
 
-Event <|--- Positive : extends
-Event <|--- Hidden : extends
-Event <|--- Negative : extends
-Event -- Player : updates
-Player *-- PlayerMove : has
-
+' ===== SCORE MANAGEMENT =====
 class ScoreManager {
     -Timer : Timer 
     -Events : Events
@@ -130,16 +224,53 @@ class Timer {
     +start()
     +stop()
     +getElapsedTime()
-
 }
 
-Event -- ScoreManager : updates
-ScoreManager "1" *-- "1..*" FinalScore : manages >
-ScoreManager "1" *-- "4" Timer : uses >
+' ===== MENU SYSTEM RELATIONSHIPS =====
+MainMenu -- TutorialPage : navigates >
+MainMenu -- SettingsPage : navigates >
+PauseMenu -- SettingsPage : navigates >
+TutorialPage -- MainMenu : returns to >
 
+' ===== MENU TO GAME INTEGRATION =====
+MainMenu -- RoomManager : starts game >
+RoomManager -- PauseMenu : pauses to >
+PauseMenu -- RoomManager : resumes to >
+PauseMenu -- Timer : gets time from >
 
-@enduml
+' ===== AUDIO SYSTEM RELATIONSHIPS =====
+AudioManager "1" *-- "1..*" AudioClip : manages >
+AudioManager "1" --> "1" AudioType : uses >
+MainMenu -- AudioManager : triggers menu music >
+RoomManager -- AudioManager : triggers gameplay music >
+PauseMenu -- AudioManager : stops music >
+Player -- AudioManager : triggers chime >
+Positive -- AudioManager : triggers sound >
+Negative -- AudioManager : triggers sound >
+SettingsPage -- AudioManager : adjusts volume >
+
+' ===== ROOM MANAGEMENT RELATIONSHIPS =====
+RoomManager "1" *-- "1..*" Room : manages >
+RoomManager "1" *-- "4" Door : controls >
+Room "1" --> "1" RoomManager
+Door "1" --> "1" RoomManager
+Room "1..4" -- "1..4" Room : adjacentRooms
+Room "1" *-- "0..1" Event : owns >
+Door "1" --> "1" DoorDirection : has >
+
+' ===== PLAYER AND EVENT RELATIONSHIPS =====
+Event <|--- Positive : extends
+Event <|--- Hidden : extends
+Event <|--- Negative : extends
 Event -- Player : updates
 Player *-- PlayerMove : has
 
+' ===== SCORE MANAGEMENT RELATIONSHIPS =====
+Event -- ScoreManager : updates
+ScoreManager "1" *-- "1..*" FinalScore : manages >
+ScoreManager "1" *-- "1" Timer : uses >
+
+' ===== GAME FLOW INTEGRATION =====
+RoomManager -- Player : manages >
+RoomManager -- ScoreManager : updates >
 @enduml

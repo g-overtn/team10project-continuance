@@ -1,0 +1,61 @@
+@startuml MenuManager
+
+class MainMenu {
+    - backgroundImage: Image
+    + display()
+    + onStartGame()
+    + onTutorial()
+    + onSettings()
+    + onExit()
+}
+
+class PauseMenu {
+    - pausedTime: int
+    + display()
+    + showPausedTimer(time: int)
+    + onResume()
+    + onSettings()
+    + onExit()
+}
+
+class TutorialPage {
+    - tutorialImage: Image
+    + display()
+    + onEscPress()
+}
+
+class SettingsPage {
+    - audioLevel: int
+    + display()
+    + adjustAudioLevel(level: int)
+    + getAudioLevel()
+    + onBack()
+}
+
+
+
+note right of MainMenu
+Displayed on the start of the game.
+Shows background image with menu options:
+Start Game, Tutorial, Settings, Exit.
+Click on options to proceed.
+end note
+
+note right of PauseMenu
+Triggered by ESC key during gameplay.
+Shows paused timer and menu options:
+Resume, Settings, Exit.
+Click on options to proceed.
+end note
+
+note right of TutorialPage
+Displays tutorial image.
+ESC key returns to main menu.
+end note
+
+MainMenu -- TutorialPage : navigates >
+MainMenu -- SettingsPage : navigates >
+PauseMenu -- SettingsPage : navigates >
+TutorialPage -- MainMenu : returns to >
+
+@enduml
