@@ -24,6 +24,7 @@ public class PauseMenu implements Screen {
     private GlyphLayout layout;
     private int pausedTime;
     private Texture backgroundImage;
+    private Texture buttonTexture;
     
     // Button rectangles
     private Rectangle resumeButton;
@@ -50,6 +51,9 @@ public class PauseMenu implements Screen {
         // Load background image
         backgroundImage = new Texture(Gdx.files.internal("pausemenu_background.png"));
         
+        // Load button background texture
+        buttonTexture = new Texture(Gdx.files.internal("ButtonBG.png"));
+        
         // Use the game's existing font
         font = game.font;
         layout = new GlyphLayout();
@@ -58,7 +62,6 @@ public class PauseMenu implements Screen {
         float buttonWidth = 600f;
         float buttonHeight = 100f;
         float screenWidth = game.uiViewport.getWorldWidth();
-        float screenHeight = game.uiViewport.getWorldHeight();
         float centerX = screenWidth / 2f;
         
         // Positioned much lower - closer to bottom half of screen
@@ -108,16 +111,24 @@ public class PauseMenu implements Screen {
     }
     
     /**
-     * Draws a button with text.
+     * Draws a button with background texture and text.
      */
     private void drawButton(Rectangle button, String text, boolean hovered) {
+        // Draw button background texture
+        if (hovered) {
+            game.batch.setColor(1f, 1f, 0.5f, 1f); // Yellowish tint when hovered
+        } else {
+            game.batch.setColor(Color.WHITE);
+        }
+        game.batch.draw(buttonTexture, button.x, button.y, button.width, button.height);
+        game.batch.setColor(Color.WHITE);
+        
         // Draw button text
         layout.setText(font, text);
         float textX = button.x + (button.width - layout.width) / 2f;
         float textY = button.y + (button.height + layout.height) / 2f;
         
-        // Change color based on hover state
-        font.setColor(hovered ? Color.YELLOW : Color.WHITE);
+        font.setColor(Color.WHITE);
         font.draw(game.batch, layout, textX, textY);
     }
     
@@ -208,6 +219,6 @@ public class PauseMenu implements Screen {
     @Override
     public void dispose() {
         backgroundImage.dispose();
-        // Don't dispose font - it's owned by EscapeGame
+        buttonTexture.dispose();
     }
 }
