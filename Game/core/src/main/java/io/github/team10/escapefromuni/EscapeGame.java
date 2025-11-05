@@ -42,7 +42,7 @@ public class EscapeGame extends Game {
 
         generateFont();
 
-        this.setScreen(new GameScreen(this));
+        this.setScreen(new MainMenu(this));
     }
 
     /**

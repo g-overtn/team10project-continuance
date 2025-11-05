@@ -1,5 +1,7 @@
 package io.github.team10.escapefromuni;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -25,9 +27,16 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-		update(delta);
-		draw();
-	}
+    // Check for ESC key to pause
+    if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        int currentTime = 125; // TODO: Get actual time from Timer/ScoreManager
+        game.setScreen(new PauseMenu(game, this, currentTime));
+        return;
+    }
+    
+    update(delta);
+    draw();
+    }
 
     /**
      * Performs game logic each frame. 
