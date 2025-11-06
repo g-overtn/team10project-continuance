@@ -27,7 +27,7 @@ public class TutorialPage implements Screen {
     @Override
     public void show() {
         // Load tutorial image
-        tutorialImage = new Texture(Gdx.files.internal("tutorial.png"));
+        tutorialImage = new Texture(Gdx.files.internal("tutorial1.png"));
     }
     
     /**
