@@ -2,28 +2,29 @@ package io.github.team10.escapefromuni;
 
 public class Timer {
 
-    private float timeLeft;
+    private float time;
 
     public Timer() {
-        this.timeLeft = 300; // start at 300 seconds
+        this.time = 0;
     }
 
     public void update(float delta) {
-        timeLeft -= delta;
-        if (timeLeft < 0) {
-            timeLeft = 0;
-        }
+        time += delta;
+    }
+
+    public float getTime() {
+        return time;
     }
 
     public int getTimeSeconds() {
-        return (int) timeLeft;
+        return (int) time;
     }
 
-    public boolean isFinished() {
-        return timeLeft <= 0;
+    public boolean hasReached(float seconds) {
+        return time >= seconds;
     }
 
     public void reset() {
-        timeLeft = 300;
+        time = 0;
     }
 }

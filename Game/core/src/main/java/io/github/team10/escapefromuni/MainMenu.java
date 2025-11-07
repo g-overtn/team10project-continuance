@@ -63,11 +63,13 @@ public class MainMenu implements Screen {
         startButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 100f, buttonWidth, buttonHeight);
         tutorialButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f, buttonWidth, buttonHeight);
         exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 100f, buttonWidth, buttonHeight);
+
+        //start menu music
+        AudioManager.getInstance().playMenuMusic();
     }
 
-    /**
-     * Displays the main menu UI with background and buttons.
-     */
+    //Displays the main menu UI with background and buttons.
+
     public void display() {
         // Draw background
         game.viewport.apply();
@@ -93,9 +95,7 @@ public class MainMenu implements Screen {
         game.batch.end();
     }
 
-    /**
-     * Draws a button with background texture and text.
-     */
+    //buttons manager
     private void drawButton(Rectangle button, String text, boolean hovered) {
         // Draw button background texture
         if (hovered) {
@@ -115,21 +115,20 @@ public class MainMenu implements Screen {
         font.draw(game.batch, layout, textX, textY);
     }
 
-    /**
-     * Checks if a button is clicked.
-     */
+    // Checks if a button is clicked.
     private boolean isButtonClicked(Rectangle button) {
         if (Gdx.input.justTouched()) {
             Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
             game.uiViewport.unproject(touchPos);
-            return button.contains(touchPos.x, touchPos.y);
+            if (button.contains(touchPos.x, touchPos.y)) {
+                AudioManager.getInstance().playClickSound();
+                return true;
+            }
         }
         return false;
     }
 
-    /**
-     * Checks if mouse is hovering over a button.
-     */
+    //Checks if mouse is hovering over a button.
     private boolean isButtonHovered(Rectangle button) {
         Vector2 mousePos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         game.uiViewport.unproject(mousePos);
@@ -146,20 +145,14 @@ public class MainMenu implements Screen {
         dispose();
     }
 
-    /**
-     * Handles Tutorial button click.
-     * Navigates to TutorialPage.
-     */
+    //tutorial page
     public void onTutorial() {
         System.out.println("Opening tutorial...");
         game.setScreen(new TutorialPage(game));
         dispose();
     }
 
-    /**
-     * Handles Exit button click.
-     * Closes the game application.
-     */
+    //exit game
     public void onExit() {
         System.out.println("Exiting game...");
         Gdx.app.exit();

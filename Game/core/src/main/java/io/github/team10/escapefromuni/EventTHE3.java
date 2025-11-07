@@ -63,6 +63,7 @@ public class EventTHE3 extends Event{
         if (eventFinished) return;
 
         player.enableMovement(false);
+        AudioManager.getInstance().playEventSound(this.type);
         questionAnswered = false;
         initialiseQuizUI();
     }

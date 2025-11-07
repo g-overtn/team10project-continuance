@@ -78,5 +78,6 @@ public class EscapeGame extends Game {
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
+        AudioManager.getInstance().dispose();
 	}
 }

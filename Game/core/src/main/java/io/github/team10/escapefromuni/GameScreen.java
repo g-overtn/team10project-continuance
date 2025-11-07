@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -21,6 +20,7 @@ public class GameScreen extends ScreenAdapter {
 
     private Timer timer; 
     private BitmapFont font;
+    private boolean isPaused;
 
     public GameScreen(final EscapeGame game)
     {
@@ -33,32 +33,40 @@ public class GameScreen extends ScreenAdapter {
         timer = new Timer(); 
         font = new BitmapFont();
         font.getData().setScale(3);
+        isPaused = false;
     }
 
     @Override
     public void render(float delta) {
     // Check for ESC key to pause
     if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-        int currentTime = 125; // TODO: Get actual time from Timer/ScoreManager
+        isPaused = true;
+        int currentTime = timer.getTimeSeconds();
         game.setScreen(new PauseMenu(game, this, currentTime));
         return;
     }
 
-    
-    update(delta);
+    if (!isPaused) {
+        update(delta);
+        timer.update(delta);
+    }
     draw();
-
 
 
     timer.update(delta); 
 
-        if (timer.isFinished()) {
+        if (timer.hasReached(300)) { // 300 seconds = 5 minutes
             game.setScreen(new GameOverScreen(game));
         }
 
         game.batch.begin();
         font.draw(game.batch, "Time: " + timer.getTimeSeconds() + "s", 50, 450);
         game.batch.end();
+    }
+
+    //timer resuming form pause menu
+    public void resumeGame() {
+        isPaused = false;
     }
 
     /**
@@ -105,7 +113,10 @@ public class GameScreen extends ScreenAdapter {
         font.dispose(); 
     }
 
-    @Override public void show() {} 
+    @Override public void show() {
+        AudioManager.getInstance().playGameMusic();
+        isPaused = false;
+    } 
     @Override public void resize(int width, int height) {}
     @Override public void pause() {}
     @Override public void resume() {}

@@ -42,6 +42,7 @@ public class EventLongboi extends Event {
         longboiSprite = new Sprite(longboiHiddenTexture);
         longboiSprite.setSize(1f, 2f);
         longboiSprite.setPosition(8f, 4.5f);
+        AudioManager.getInstance().playEventSound(this.type);
     }
 
     @Override

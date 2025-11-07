@@ -32,6 +32,7 @@ public class EventGreggs extends Event {
         greggsSprite = new Sprite(greggsTexture);
         greggsSprite.setSize(3f, 2f);
         greggsSprite.setPosition(6.5f, 3.5f);
+        AudioManager.getInstance().playEventSound(this.type);
     }
 
     @Override

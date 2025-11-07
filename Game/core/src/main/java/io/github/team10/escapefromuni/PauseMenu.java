@@ -51,27 +51,27 @@ public class PauseMenu implements Screen {
         // Load background image
         backgroundImage = new Texture(Gdx.files.internal("pausemenu_background.png"));
         
-        // Load button background texture
+        // background for buttons
         buttonTexture = new Texture(Gdx.files.internal("ButtonBG.png"));
         
-        // Use the game's existing font
         font = game.font;
         layout = new GlyphLayout();
         
-        // Initialize button rectangles (centered on screen, positioned much lower)
+
         float buttonWidth = 600f;
         float buttonHeight = 100f;
         float screenWidth = game.uiViewport.getWorldWidth();
         float centerX = screenWidth / 2f;
         
-        // Positioned much lower - closer to bottom half of screen
+        // buttons positioning
         resumeButton = new Rectangle(centerX - buttonWidth / 2f, 450f, buttonWidth, buttonHeight);
         exitButton = new Rectangle(centerX - buttonWidth / 2f, 300f, buttonWidth, buttonHeight);
+
+        //pause menu music
+        AudioManager.getInstance().playMenuMusic();
     }
     
-    /**
-     * Displays the pause menu UI.
-     */
+    //displaying pause menu
     public void display() {
         // Draw background image
         game.viewport.apply();
@@ -85,22 +85,22 @@ public class PauseMenu implements Screen {
         game.batch.setProjectionMatrix(game.uiCamera.combined);
         game.batch.begin();
         
-        // Draw custom text - positioned lower
+        
         String title = "You pulled out 'Exceptional Circumstances' card on dean";
         layout.setText(font, title);
         float titleX = (game.uiViewport.getWorldWidth() - layout.width) / 2f;
-        float titleY = 750f; // Much lower
+        float titleY = 750f; 
         font.setColor(Color.WHITE);
         font.draw(game.batch, layout, titleX, titleY);
         
-        // Draw timer - also lower
+        // Draw timer 
         showPausedTimer(pausedTime);
         int minutes = pausedTime / 60;
         int seconds = pausedTime % 60;
         String timeText = String.format("Time: %02d:%02d", minutes, seconds);
         layout.setText(font, timeText);
         float timeX = (game.uiViewport.getWorldWidth() - layout.width) / 2f;
-        float timeY = 650f; // Lower
+        float timeY = 650f; 
         font.draw(game.batch, layout, timeX, timeY);
         
         // Draw buttons
@@ -110,9 +110,7 @@ public class PauseMenu implements Screen {
         game.batch.end();
     }
     
-    /**
-     * Draws a button with background texture and text.
-     */
+    //buttons
     private void drawButton(Rectangle button, String text, boolean hovered) {
         // Draw button background texture
         if (hovered) {
@@ -132,21 +130,20 @@ public class PauseMenu implements Screen {
         font.draw(game.batch, layout, textX, textY);
     }
     
-    /**
-     * Checks if a button is clicked.
-     */
+    //click detection
     private boolean isButtonClicked(Rectangle button) {
         if (Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             game.uiCamera.unproject(touchPos);
-            return button.contains(touchPos.x, touchPos.y);
+            if (button.contains(touchPos.x, touchPos.y)) {
+                AudioManager.getInstance().playClickSound();
+                return true;
+            }
         }
         return false;
     }
     
-    /**
-     * Checks if mouse is hovering over a button.
-     */
+    //hover detection
     private boolean isButtonHovered(Rectangle button) {
         Vector3 mousePos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         game.uiCamera.unproject(mousePos);
@@ -161,20 +158,15 @@ public class PauseMenu implements Screen {
         this.pausedTime = time;
     }
     
-    /**
-     * Handles Resume button click.
-     * Returns to gameplay.
-     */
+    //resume button
     public void onResume() {
         System.out.println("Resuming game...");
+        gameScreen.resumeGame();
         game.setScreen(gameScreen);
         dispose();
     }
     
-    /**
-     * Handles Exit button click.
-     * Returns to main menu and disposes GameScreen.
-     */
+    //exit button
     public void onExit() {
         System.out.println("Returning to main menu...");
         gameScreen.dispose();
