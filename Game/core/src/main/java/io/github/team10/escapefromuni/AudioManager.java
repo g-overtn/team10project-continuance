@@ -6,9 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 
 /**
  * AudioManager for handling all game audio.
- * 
- * Manages background music for menus and gameplay, and sound effects
- * for events and button clicks.
+ * Manages background music for menus and gameplay, and sound effects for different events and button clicks.
  */
 public class AudioManager {
     private static AudioManager instance;
@@ -25,16 +23,14 @@ public class AudioManager {
     
     
     private Music currentMusic;
+    private float currentVolume = 0.5f;
     
     
     private AudioManager() {
         loadAudio();
     }
     
-    /**
-     * Gets the singleton instance of AudioManager.
-     * @return The AudioManager instance
-     */
+    //gets the audiomanager instance
     public static AudioManager getInstance() {
         if (instance == null) {
             instance = new AudioManager();
@@ -49,9 +45,13 @@ public class AudioManager {
             menuMusic = Gdx.audio.newMusic(Gdx.files.internal("MenuMusic.mp3"));
             gameMusic = Gdx.audio.newMusic(Gdx.files.internal("GameMusic.mp3"));
             
-            // Set looping for background music
+            // for the gameplay and menu music to loop 
             menuMusic.setLooping(true);
             gameMusic.setLooping(true);
+            
+            // Set initial volume
+            menuMusic.setVolume(currentVolume);
+            gameMusic.setVolume(currentVolume);
             
             // Load sound effects
             clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
@@ -65,7 +65,6 @@ public class AudioManager {
     }
     
     // Plays menu music
-
     public void playMenuMusic() {
         if (currentMusic != menuMusic) {
             stopCurrentMusic();
@@ -74,7 +73,7 @@ public class AudioManager {
         }
     }
     
-    // Plyas game music
+    // Plays game music
     public void playGameMusic() {
         if (currentMusic != gameMusic) {
             stopCurrentMusic();
@@ -85,7 +84,6 @@ public class AudioManager {
     
     /**
      * Plays event sound effect based on event type.
-     * The sound plays once and game music continues in the background.
      * @param eventType The type of event (NEGATIVE, POSITIVE, or HIDDEN)
      */
     public void playEventSound(EventType eventType) {
@@ -104,20 +102,18 @@ public class AudioManager {
         }
         
         if (eventSound != null) {
-            eventSound.play(1.0f); 
+            eventSound.play(currentVolume); 
         }
     }
     
     //click sound effect
-
     public void playClickSound() {
         if (clickSound != null) {
-            clickSound.play(1.0f);
+            clickSound.play(currentVolume);
         }
     }
     
     // Stops the currently playing music
-     
     private void stopCurrentMusic() {
         if (currentMusic != null && currentMusic.isPlaying()) {
             currentMusic.stop();
@@ -125,7 +121,6 @@ public class AudioManager {
     }
     
     //pauses the currently playing music
-
     public void pauseMusic() {
         if (currentMusic != null && currentMusic.isPlaying()) {
             currentMusic.pause();
@@ -139,29 +134,33 @@ public class AudioManager {
         }
     }
     
-    /**
-     * Sets the volume for all music tracks.
-     * @param volume Volume level (0.0f to 1.0f)
-     */
+    // Sets the master volume for all audio from 0.1f to 1.0f
+    public void setVolume(float volume) {
+        this.currentVolume = Math.max(0f, Math.min(1f, volume));
+        
+        if (menuMusic != null) menuMusic.setVolume(currentVolume);
+        if (gameMusic != null) gameMusic.setVolume(currentVolume);
+    }
+
+    public float getVolume() {
+        return currentVolume;
+    }
+    
+    //Sets the volume for every audio
+    
     public void setMusicVolume(float volume) {
         if (menuMusic != null) menuMusic.setVolume(volume);
         if (gameMusic != null) gameMusic.setVolume(volume);
     }
-    
-    /**
-     * Sets the volume for all sound effects.
-     * @param volume Volume level (0.0f to 1.0f)
-     */
+
     public void setSoundVolume(float volume) {
-        }
+    }
     
     // Disposes all audio 
     public void dispose() {
-        // Dispose music
+        
         if (menuMusic != null) menuMusic.dispose();
         if (gameMusic != null) gameMusic.dispose();
-        
-        // Dispose sound effects
         if (clickSound != null) clickSound.dispose();
         if (negativeEventSound != null) negativeEventSound.dispose();
         if (positiveEventSound != null) positiveEventSound.dispose();

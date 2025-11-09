@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Main menu screen displayed on game launch with menu options:
- * Start Game, Tutorial, Exit.
+ * Start Game, Tutorial,Exit.
  */
 public class MainMenu implements Screen {
 
@@ -22,91 +22,84 @@ public class MainMenu implements Screen {
     private BitmapFont font;
     private GlyphLayout layout;
 
-    // Button rectangles
+    // buttons
     private Rectangle startButton;
     private Rectangle tutorialButton;
+    private Rectangle settingsButton;
     private Rectangle exitButton;
 
-    // Button states
+    // hover states for nuttons
     private boolean startHovered;
     private boolean tutorialHovered;
+    private boolean settingsHovered;
     private boolean exitHovered;
 
-    /**
-     * Creates a new MainMenu instance.
-     * 
-     * @param game Reference to the main {@link EscapeGame} instance.
-     */
     public MainMenu(EscapeGame game) {
         this.game = game;
     }
 
     @Override
     public void show() {
-        // Load background image
+        // backgrouns
         backgroundImage = new Texture(Gdx.files.internal("mainmenu_background.png"));
-
-        // Load button background texture
         buttonTexture = new Texture(Gdx.files.internal("ButtonBG.png"));
 
-        // Use the game's existing font
         font = game.font;
         layout = new GlyphLayout();
 
-        // Initialize button rectangles (centered on screen)
+        // button sizes
         float buttonWidth = 400f;
         float buttonHeight = 80f;
+
+        // alignment; To be Fixed
         float screenWidth = game.uiViewport.getWorldWidth();
         float screenHeight = game.uiViewport.getWorldHeight();
         float centerX = screenWidth / 2f;
 
-        startButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 100f, buttonWidth, buttonHeight);
-        tutorialButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f, buttonWidth, buttonHeight);
-        exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 100f, buttonWidth, buttonHeight);
+        // main menu button positions
+        startButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 150f, buttonWidth, buttonHeight);
+        tutorialButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 50f, buttonWidth, buttonHeight);
+        settingsButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 50f, buttonWidth, buttonHeight);
+        exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 150f, buttonWidth, buttonHeight);
 
-        //start menu music
+        //menu music 
         AudioManager.getInstance().playMenuMusic();
     }
 
-    //Displays the main menu UI with background and buttons.
-
+    // Draws the main menu UI
     public void display() {
-        // Draw background
         game.viewport.apply();
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
         game.batch.begin();
         game.batch.draw(backgroundImage, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         game.batch.end();
 
-        // Draw UI elements
         game.uiViewport.apply();
         game.batch.setProjectionMatrix(game.uiCamera.combined);
         game.batch.begin();
 
-        // Draw Start Game button
+        // draw all main menu buttons
         drawButton(startButton, "Start Game", startHovered);
-
-        // Draw Tutorial button
         drawButton(tutorialButton, "Tutorial", tutorialHovered);
-
-        // Draw Exit button
+        drawButton(settingsButton, "Settings", settingsHovered);
         drawButton(exitButton, "Exit", exitHovered);
 
         game.batch.end();
     }
 
-    //buttons manager
+    //the buttons
     private void drawButton(Rectangle button, String text, boolean hovered) {
-        // Draw button background texture
+
         if (hovered) {
-            game.batch.setColor(1f, 1f, 0.5f, 1f); // Yellowish tint when hovered
+            game.batch.setColor(1f, 1f, 0.5f, 1f);
         } else {
             game.batch.setColor(Color.WHITE);
         }
+
+        //button bg,size etc
         game.batch.draw(buttonTexture, button.x, button.y, button.width, button.height);
         game.batch.setColor(Color.WHITE);
 
-        // Draw button text
         layout.setText(font, text);
         float textX = button.x + (button.width - layout.width) / 2f;
         float textY = button.y + (button.height + layout.height) / 2f;
@@ -115,12 +108,14 @@ public class MainMenu implements Screen {
         font.draw(game.batch, layout, textX, textY);
     }
 
-    // Checks if a button is clicked.
     private boolean isButtonClicked(Rectangle button) {
+        // click detector
         if (Gdx.input.justTouched()) {
             Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
             game.uiViewport.unproject(touchPos);
+
             if (button.contains(touchPos.x, touchPos.y)) {
+                // play click audio
                 AudioManager.getInstance().playClickSound();
                 return true;
             }
@@ -128,57 +123,63 @@ public class MainMenu implements Screen {
         return false;
     }
 
-    //Checks if mouse is hovering over a button.
     private boolean isButtonHovered(Rectangle button) {
+        // detect mouse hover in UI coordinates
         Vector2 mousePos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         game.uiViewport.unproject(mousePos);
         return button.contains(mousePos.x, mousePos.y);
     }
 
-    /**
-     * Handles Start Game button click.
-     * Transitions to GameScreen to begin gameplay.
-     */
     public void onStartGame() {
+        // switch to main gameplay
         System.out.println("Starting game...");
         game.setScreen(new GameScreen(game));
         dispose();
     }
 
-    //tutorial page
     public void onTutorial() {
+        // open tutorial page
         System.out.println("Opening tutorial...");
         game.setScreen(new TutorialPage(game));
         dispose();
     }
 
-    //exit game
+    public void onSettings() {
+        // open settings page
+        System.out.println("Opening settings...");
+        game.setScreen(new SettingsPage(game, this));
+        dispose();
+    }
+
     public void onExit() {
+        // quit game
         System.out.println("Exiting game...");
         Gdx.app.exit();
     }
 
     @Override
     public void render(float delta) {
-        // Clear screen
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Update hover states
         startHovered = isButtonHovered(startButton);
         tutorialHovered = isButtonHovered(tutorialButton);
+        settingsHovered = isButtonHovered(settingsButton);
         exitHovered = isButtonHovered(exitButton);
 
-        // Check for button clicks
+
         if (isButtonClicked(startButton)) {
             onStartGame();
         } else if (isButtonClicked(tutorialButton)) {
             onTutorial();
+        } else if (isButtonClicked(settingsButton)) {
+            onSettings();
         } else if (isButtonClicked(exitButton)) {
             onExit();
         }
 
-        // Display the menu
+        // draw everything
         display();
     }
 
@@ -189,19 +190,17 @@ public class MainMenu implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
+        
         backgroundImage.dispose();
         buttonTexture.dispose();
     }
