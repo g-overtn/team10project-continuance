@@ -99,6 +99,8 @@ public class AudioManager {
             case HIDDEN:
                 eventSound = hiddenEventSound;
                 break;
+            default:
+                break;
         }
         
         if (eventSound != null) {

@@ -41,7 +41,7 @@ public class EventLongboi extends Event {
 
         longboiSprite = new Sprite(longboiHiddenTexture);
         longboiSprite.setSize(1f, 2f);
-        longboiSprite.setPosition(8f, 2f);
+        longboiSprite.setPosition(8f, 3f);
         AudioManager.getInstance().playEventSound(this.type);
     }
 
@@ -77,7 +77,7 @@ public class EventLongboi extends Event {
         hidden = false;
         longboiSprite = new Sprite(longboiTexture);
         longboiSprite.setSize(1f, 2f);
-        longboiSprite.setPosition(8f, 2f);
+        longboiSprite.setPosition(8f, 3f);
     }
 
     /**
