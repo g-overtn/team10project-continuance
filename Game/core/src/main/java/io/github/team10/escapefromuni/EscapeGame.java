@@ -33,12 +33,8 @@ public class EscapeGame extends Game {
         batch = new SpriteBatch();
         
         viewport = new FitViewport(16, 9);
-        // 256 
-        // 160/256 = 0.625
         uiCamera = new OrthographicCamera();
         uiViewport = new FitViewport(1920, 1080, uiCamera);
-        // 0.625 * 1920 = 1200
-        // 1200 / 160 = 7.5
 
         generateFont();
 
