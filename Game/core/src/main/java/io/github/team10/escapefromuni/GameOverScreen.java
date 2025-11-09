@@ -9,29 +9,43 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+/**
+ * Represents the Game Over screen, shown when the player either wins or loses.
+ * Displays the appropriate background, score, and time information.
+ * The player can return to the main menu by pressing the ESC key.
+ */
 public class GameOverScreen implements Screen {
 
     private final EscapeGame game;
-    private BitmapFont font;
-    private boolean isWon;
-    private Texture winScreen;
-    private Texture loseScreen;
-
+    private final boolean isWon;
     private final Timer timer;
     private final ScoreManager scoreManager;
 
+    private final BitmapFont font;
+    private final Texture winScreen;
+    private final Texture loseScreen;
+
+    /**
+     * Constructs a new GameOVerScreen.
+     * @param game  The main game instance.
+     * @param isWon Whether the player has won or lost.
+     * @param timer The timer used to track playtime.
+     * @param scoreManager  The score manager which calculates the final score.
+     */
     public GameOverScreen(final EscapeGame game, boolean isWon, Timer timer, ScoreManager scoreManager) {
         this.game = game;
         this.isWon = isWon;
-        font = game.font;
-        winScreen = new Texture("WinScreen.png");
-        loseScreen = new Texture("LoseScreen.png");
         this.timer = timer;
         this.scoreManager = scoreManager;
+
+        this.font = game.font;
+        this.winScreen = new Texture("WinScreen.png");
+        this.loseScreen = new Texture("LoseScreen.png");
     }
 
     @Override
     public void render(float delta) {
+        // Return to main menu if ESC pressed.
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             AudioManager.getInstance().playClickSound();
             game.setScreen(new MainMenu(game));
@@ -56,6 +70,9 @@ public class GameOverScreen implements Screen {
         game.batch.end();
     }
 
+    /**
+     * Renders the winning screen, showing the win background, final score and time elapsed.
+     */
     private void renderWinScreen(){
         game.batch.draw(winScreen, 0, 0, game.uiViewport.getWorldWidth(), game.uiViewport.getWorldHeight());
         String timeText = "Time Elapsed: " + timer.getTimeSeconds();
@@ -81,6 +98,11 @@ public class GameOverScreen implements Screen {
         font.draw(game.batch, scoreText, scoreX, scoreY);
     }
 
+    /**
+     * Renders the losing screen with the lose background.
+     * 
+     * Doesn't display the score or time.
+     */
     private void renderLoseScreen(){
         game.batch.draw(loseScreen, 0, 0, game.uiViewport.getWorldWidth(), game.uiViewport.getWorldHeight());
     }
@@ -90,6 +112,10 @@ public class GameOverScreen implements Screen {
     @Override public void pause() {}
     @Override public void resume() {}
     @Override public void hide() {}
+
+    /**
+     * Dispose of textures used by the screen.
+     */
     @Override public void dispose() { 
         winScreen.dispose();
         loseScreen.dispose();
