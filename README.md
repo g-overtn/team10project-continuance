@@ -43,3 +43,7 @@ https://docs.google.com/document/d/14ipl_7XwUrfqLkRuuWHkuxb77QpD1bh-yUbrubL6ZLs/
 
 https://libgdx.com/wiki/
 https://javadoc.io/doc/com.badlogicgames.gdx/gdx/latest/index.html
+
+### Presentation
+
+https://docs.google.com/presentation/d/1GU2Udjd_fOla8rh5pwHqV2Gnu_CQXcOKN46nP2goUVQ/edit?usp=sharing
