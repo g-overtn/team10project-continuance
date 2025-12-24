@@ -2,6 +2,13 @@
 
 ## Links
 
+## Team website
+https://alistudentgit.github.io/team10projectsite/
+
+## Website repo
+https://github.com/alistudentgit/team10projectsite
+
+
 ### Trello
 
 https://trello.com/b/FkccrNpt/eng1-team-10
