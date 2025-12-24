@@ -1,0 +1,113 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Run our automated tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    defaults:
+      run:
+        working-directory: Game
+    
+    steps:
+      - name: Get the code from GitHub
+        uses: actions/checkout@v4
+        
+      - name: Make sure Java 17 is used
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: 'gradle'
+          
+      - name: Make our code executable so we can run it
+        run: chmod +x gradlew
+        
+      - name: Make sure Gradle wrapper is valid
+        uses: gradle/wrapper-validation-action@v2
+
+      - name: Asset tests to ensure they are all present
+        run: |
+          echo "Setting up test assets"
+          mkdir -p core/src/test/resources
+          
+          if [ -d "assets" ]; then
+            cp -r assets/* core/src/test/resources/
+            echo "Assets have been copied and testing can begin!"
+          else
+            echo "Can't find the assets folder!!!"
+            exit 1
+          fi
+
+      - name: Get rid of old build files
+        run: ./gradlew clean --no-daemon
+        
+      - name: Run our automated tests
+        run: ./gradlew test --no-daemon --stacktrace
+        
+      - name: Send our tests results to GitHub to upload as a HTML file
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            Game/**/build/reports/tests/**
+            Game/**/build/test-results/**
+          retention-days: 30
+
+      - name: Create test summary (success/failure)
+        if: always()
+        run: |
+          echo "# Test Summary" >> $GITHUB_STEP_SUMMARY
+          if find . -path "*/test-results/*/TEST-*.xml" -type f | grep -q .; then
+            echo "All of the automated tests have been finished. Test results will appear in the HTML file in the test-results folder." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Tests failed to produce output." >> $GITHUB_STEP_SUMMARY
+          fi
+
+  build:
+    name: Build the JAR file
+    needs: test
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: Game
+    
+    steps:
+      - name: Get the code from GitHub
+        uses: actions/checkout@v4
+        
+      - name: Make sure Java 17 is used
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: 'gradle'
+          
+      - name: Make our code executable so we can run it
+        run: chmod +x gradlew
+        
+      - name: Building the project without tests
+        run: ./gradlew build --no-daemon -x test
+        
+      - name: Create the JAR file
+        run: ./gradlew lwjgl3:jar --no-daemon
+        
+      - name: Upload desktop JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: Escape_From_Uni-Desktop
+          path: Game/lwjgl3/build/libs/*.jar
+          retention-days: 90
