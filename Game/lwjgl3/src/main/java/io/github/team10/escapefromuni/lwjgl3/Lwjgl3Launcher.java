@@ -3,6 +3,7 @@ package io.github.team10.escapefromuni.lwjgl3;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
+import io.github.team10.escapefromuni.AchievementManager;
 import io.github.team10.escapefromuni.EscapeGame;
 
 /** Launches the desktop (LWJGL3) application. */

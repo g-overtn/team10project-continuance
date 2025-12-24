@@ -4,8 +4,58 @@ eclipse.project.name = appName + '-core'
 dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+  testImplementation "junit:junit:4.13.2"
+  testImplementation "org.mockito:mockito-core:4.11.0"
+  testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+  testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+  testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+  testImplementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+}
 
-  if(enableGraalNative == 'true') {
-    implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+// Task to copy assets to test resources
+task copyAssetsToTest(type: Copy) {
+    description = 'Copies assets from the assets directory to test resources for testing'
+    from '../assets'
+    into 'src/test/resources'
+    
+    // Only copy if source exists
+    onlyIf {
+        file('../assets').exists()
+    }
+}
+
+// Ensure processTestResources waits for assets to be copied
+tasks.named('processTestResources') {
+    dependsOn copyAssetsToTest
+}
+
+test {
+  useJUnit()
+  
+  testLogging {
+    events "passed", "skipped", "failed", "standardOut", "standardError"
+    exceptionFormat "full"
+    showStandardStreams = true
   }
+  
+  // This line makes sure that all of the tests run using headless which is what we want
+  systemProperty 'java.awt.headless', 'true'
+  workingDir = project.rootDir
+  
+  // Ensure test reports are generated
+  reports {
+    html.required = true
+    junitXml.required = true
+  }
+  
+  // Set timeout
+  timeout = Duration.ofMinutes(10)
+  
+  // Make tests depend on asset copying
+  dependsOn copyAssetsToTest
+}
+
+// Clean up copied assets
+clean {
+    delete 'src/test/resources'
 }
