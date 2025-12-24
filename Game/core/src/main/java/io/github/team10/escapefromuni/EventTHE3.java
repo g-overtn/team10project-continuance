@@ -10,8 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 
 /**
  * Represents the THE3 exam negative event.
- * 
- * This event temporarily disables player movement, displays a quiz question with TRUE/FALSE buttons, and provides 
+ * This event temporarily disables player movement, displays a quiz question with TRUE/FALSE achievement_texts, and provides
  * feedback based on the player's answer. If the player gets the answer correct the score increases, otherwise the
  * player is slowed down.
  */
@@ -37,7 +36,7 @@ public class EventTHE3 extends Event{
 
     private Rectangle trueButtonBounds;
     private Rectangle falseButtonBounds;
-    
+
 
     /**
      * Creates a new instance of EventTHE3.
@@ -65,6 +64,7 @@ public class EventTHE3 extends Event{
      */
     @Override
     public void startEvent() {
+        super.startEvent();
         if (eventFinished) return;
 
         player.enableMovement(false);
@@ -75,8 +75,7 @@ public class EventTHE3 extends Event{
 
     /**
      * Initialises and positions all UI components for the quiz screen.
-     * 
-     * This includes a title, question display and two buttons (true or false).
+     * This includes a title, question display and two achievement_texts (true or false).
      */
     private void initialiseQuizUI()
     {
@@ -124,8 +123,7 @@ public class EventTHE3 extends Event{
 
     /**
      * Called every frame to update the event's logic.
-     * 
-     * Handles input detection for true/false buttons.
+     * Handles input detection for true/false achievement_texts.
      * Controls the post-answer delay before ending the event.
      * @param delta The time elapsed since the last frame in seconds.
      */
@@ -151,19 +149,18 @@ public class EventTHE3 extends Event{
             if (trueButtonBounds.contains(touchPos.x, touchPos.y)) {
                 // TRUE selected.
                 handleAnswer(true);
-            } 
+            }
             else if (falseButtonBounds.contains(touchPos.x, touchPos.y)) {
                 // FALSE selected.
                 handleAnswer(false);
             }
         }
 
-        
+
     }
 
     /**
      * Apply's effects based on the player's answer.
-     * 
      * If correct, score is increased. If incorrect, player speed is decreased.
      * @param answer {@code true} if the true button was pressed, {@code false} otherwise.
      */
@@ -174,10 +171,12 @@ public class EventTHE3 extends Event{
         if (answer) {
             feedbackText = "Correct: Score +500";
             scoreManager.increaseScore(500);
-        } 
+            game.achievementManager.check_PASS();
+        }
         else {
             feedbackText = "Incorrect: Speed Decrease";
             player.increaseSpeed(-2f);
+            game.achievementManager.check_FAIL();
         }
     }
 

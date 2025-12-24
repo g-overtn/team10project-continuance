@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
  * Class to represent the game. Instantiated by the Launcher.
- * 
+ *
  * Similar to the Drop class in https://libgdx.com/wiki/start/simple-game-extended.
  * Loads the initial Screen. Has a SpriteBatch batch, to be used by each screen to render the game.
  */
@@ -28,10 +28,13 @@ public class EscapeGame extends Game {
     public OrthographicCamera uiCamera;
     public FitViewport uiViewport;
 
+    // NEW AchievementManager, placed in here as easier to access from areas of the game
+    public final AchievementManager achievementManager = new AchievementManager();
+
     @Override
     public void create() {
         batch = new SpriteBatch();
-        
+
         viewport = new FitViewport(16, 9);
         uiCamera = new OrthographicCamera();
         uiViewport = new FitViewport(1920, 1080, uiCamera);

@@ -1,5 +1,6 @@
 package io.github.team10.escapefromuni;
 
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -37,6 +38,8 @@ public class Door {
     }
 
     public void draw()
+    /**Draws the door if it is active.
+     */
     {
         if (isActive)
         {
@@ -45,16 +48,26 @@ public class Door {
     }
 
     public void setActive(boolean isActive)
+    /**Sets the active state of the door.
+     * @param isActive true if the door should be active (visible and usable), false otherwise.
+     */
+
     {
         this.isActive = isActive;
     }
 
     public boolean getActive()
+    /**Returns whether the door is active.
+     * @return true if the door is active, false otherwise.
+     */
     {
         return isActive;
     }
 
     public void dispose()
+    /**Disposes of the door texture to free GPU memory.
+     * Should be called when the RoomManager is disposed.
+     */
     {
         doorTexture.dispose();
     }

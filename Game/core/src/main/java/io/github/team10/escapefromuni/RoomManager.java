@@ -5,23 +5,22 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * Manages all {@link Room} and {@link Door} instances in the game.
- * 
- * Responsible for initialising the pre-defined game map, handling transitions between rooms, drawing room and door 
+ * * Responsible for initialising the pre-defined game map, handling transitions between rooms, drawing room and door
  * textures, and disposing of those textures when no longer needed.
  */
 public class RoomManager {
     public EscapeGame game;
 
-    private final Player player;
-    private final ScoreManager scoreManager;
-    private final Timer timer;
-    private Room currentRoom;
-    private Door[] doors = new Door[4];
-    private final ObjectMap<String, Texture> roomTextures = new ObjectMap<>();
-    private Texture[] indicatorTextures = new Texture[4];
-    private Texture positiveIndicator;
-    private Texture negativeIndicator;
-    
+    public final Player player;
+    public final ScoreManager scoreManager;
+    public final Timer timer;
+    public Room currentRoom;
+    public Door[] doors = new Door[4];
+    public final ObjectMap<String, Texture> roomTextures = new ObjectMap<>();
+    public Texture[] indicatorTextures = new Texture[4];
+    public Texture positiveIndicator;
+    public Texture negativeIndicator;
+
 
     /**
      * Initialises a RoomManager.
@@ -36,8 +35,7 @@ public class RoomManager {
 
     /**
      * Initialise the game map, which will be the same every time.
-     * 
-     * Initialise 4 doors, create rooms and create room connections. Room textures are stored in a list for easy 
+     * * Initialise 4 doors, create rooms and create room connections. Room textures are stored in a list for easy
      * access and disposal. Also loads the first room.
      */
     public void initialiseMap() {
@@ -55,7 +53,6 @@ public class RoomManager {
         roomTextures.put("room9", new Texture("Room10.png"));
 
         // Iniitalise all the rooms
-        // TODO: Update room textures, and add more rooms.
         Room room1 = new Room(roomTextures.get("room1"));
         Room room2 = new Room(roomTextures.get("room2"));
         Room room3 = new Room(roomTextures.get("room3"));
@@ -113,8 +110,7 @@ public class RoomManager {
 
     /**
      * Will change the current room, given the direction of the new room in relation to the current room.
-     * 
-     * Updates the active doors, and repositions the player to the appropriate entrance location in the new room.
+     * * Updates the active doors, and repositions the player to the appropriate entrance location in the new room.
      * @param direction The direction of the new room.
      */
     public void changeRoom(DoorDirection direction) {
@@ -122,7 +118,7 @@ public class RoomManager {
         // Will update which doors are visible. Note that only 4 door objects are used -
         // they can be made visible or invisible.
 
-        
+
 
         if (currentRoom.getEventType() != EventType.NONE)
         {
@@ -144,6 +140,9 @@ public class RoomManager {
         if (newRoom.getExit())
         {
             game.setScreen(new GameOverScreen(game, true, timer, scoreManager));
+
+            // achievement
+            if (timer.getTimeSeconds() <= 10) { game.achievementManager.check_TEN_SECONDS(); }
         }
     }
 
@@ -153,7 +152,7 @@ public class RoomManager {
     private void updatePlayerPosition(DoorDirection direction)
     {
         float worldWidth = game.viewport.getWorldWidth();
-		float worldHeight = game.viewport.getWorldHeight();
+        float worldHeight = game.viewport.getWorldHeight();
         if(direction == DoorDirection.NORTH) player.setCenter(worldWidth / 2, 2);
         if(direction == DoorDirection.EAST) player.setCenter(2f, worldHeight / 2);
         if(direction == DoorDirection.SOUTH) player.setCenter(worldWidth / 2, worldHeight - 2);
@@ -175,7 +174,7 @@ public class RoomManager {
     {
         Texture roomTexture = currentRoom.getRoomTexture();
         float worldWidth = game.viewport.getWorldWidth();
-		float worldHeight = game.viewport.getWorldHeight();
+        float worldHeight = game.viewport.getWorldHeight();
         game.batch.draw(roomTexture, 0, 0, worldWidth, worldHeight);
     }
 

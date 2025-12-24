@@ -77,7 +77,6 @@ public class SettingsPage implements Screen {
     }
     
     public void display() {
-         
         game.viewport.apply();
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
         game.batch.begin();
@@ -173,7 +172,6 @@ public class SettingsPage implements Screen {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             game.uiCamera.unproject(touchPos);
             if (button.contains(touchPos.x, touchPos.y)) {
-                AudioManager.getInstance().playClickSound();
                 return true;
             }
         }

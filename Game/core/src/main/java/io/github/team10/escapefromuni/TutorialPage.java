@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.Texture;
 
 /**
  * Tutorial page displaying game instructions.
- * 
- * Shows tutorial image. ESC key returns to main menu.
+ * * Shows tutorial image. ESC key returns to main menu.
  */
 public class TutorialPage implements Screen {
     
     private final EscapeGame game;
-    private Texture tutorialImage;
+    
+    public Texture tutorialImage;
     
     /**
      * Creates a new TutorialPage instance.
@@ -79,6 +79,6 @@ public class TutorialPage implements Screen {
     
     @Override
     public void dispose() {
-        tutorialImage.dispose();
+        if (tutorialImage != null) tutorialImage.dispose();
     }
 }

@@ -22,17 +22,23 @@ public class MainMenu implements Screen {
     private BitmapFont font;
     private GlyphLayout layout;
 
-    // buttons
+    // achievement_texts
     private Rectangle startButton;
     private Rectangle tutorialButton;
     private Rectangle settingsButton;
     private Rectangle exitButton;
 
-    // hover states for nuttons
+    // NEW
+    private Rectangle achievementButton;
+
+    // hover states for achievement_texts
     private boolean startHovered;
     private boolean tutorialHovered;
     private boolean settingsHovered;
     private boolean exitHovered;
+
+    // NEW
+    private boolean achievementHovered;
 
     public MainMenu(EscapeGame game) {
         this.game = game;
@@ -40,7 +46,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void show() {
-        // backgrouns
+        // backgrounds
         backgroundImage = new Texture(Gdx.files.internal("mainmenu_background.png"));
         buttonTexture = new Texture(Gdx.files.internal("ButtonBG.png"));
 
@@ -61,8 +67,9 @@ public class MainMenu implements Screen {
         tutorialButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 50f, buttonWidth, buttonHeight);
         settingsButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 50f, buttonWidth, buttonHeight);
         exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 150f, buttonWidth, buttonHeight);
+        achievementButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 350f, buttonWidth, buttonHeight);
 
-        //menu music 
+        //menu music
         AudioManager.getInstance().playMenuMusic();
     }
 
@@ -78,16 +85,17 @@ public class MainMenu implements Screen {
         game.batch.setProjectionMatrix(game.uiCamera.combined);
         game.batch.begin();
 
-        // draw all main menu buttons
+        // draw all main menu achievement_texts
         drawButton(startButton, "Start Game", startHovered);
         drawButton(tutorialButton, "Tutorial", tutorialHovered);
         drawButton(settingsButton, "Settings", settingsHovered);
         drawButton(exitButton, "Exit", exitHovered);
+        drawButton(achievementButton, "Achievements", achievementHovered);
 
         game.batch.end();
     }
 
-    //the buttons
+    //the achievement_texts
     private void drawButton(Rectangle button, String text, boolean hovered) {
 
         if (hovered) {
@@ -115,8 +123,6 @@ public class MainMenu implements Screen {
             game.uiViewport.unproject(touchPos);
 
             if (button.contains(touchPos.x, touchPos.y)) {
-                // play click audio
-                AudioManager.getInstance().playClickSound();
                 return true;
             }
         }
@@ -134,6 +140,9 @@ public class MainMenu implements Screen {
         // switch to main gameplay
         System.out.println("Starting game...");
         game.setScreen(new GameScreen(game));
+
+        // load achievements
+        game.achievementManager.loadAchievements();
         dispose();
     }
 
@@ -157,6 +166,13 @@ public class MainMenu implements Screen {
         Gdx.app.exit();
     }
 
+    public void onAchievements() {
+        // take user to achievements page
+        System.out.println("Going to achievement menu...");
+        game.setScreen(new AchievementScreen(game));
+        dispose();
+    }
+
     @Override
     public void render(float delta) {
 
@@ -167,6 +183,7 @@ public class MainMenu implements Screen {
         tutorialHovered = isButtonHovered(tutorialButton);
         settingsHovered = isButtonHovered(settingsButton);
         exitHovered = isButtonHovered(exitButton);
+        achievementHovered = isButtonHovered(achievementButton);
 
 
         if (isButtonClicked(startButton)) {
@@ -177,6 +194,8 @@ public class MainMenu implements Screen {
             onSettings();
         } else if (isButtonClicked(exitButton)) {
             onExit();
+        } else if (isButtonClicked(achievementButton)) {
+            onAchievements();
         }
 
         // draw everything
@@ -200,7 +219,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        
+
         backgroundImage.dispose();
         buttonTexture.dispose();
     }

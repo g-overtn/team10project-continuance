@@ -16,7 +16,6 @@ public class AudioManager {
     private Music gameMusic;
     
     // Sound effects (played once when the even is triggered or button click)
-    private Sound clickSound;
     private Sound negativeEventSound;
     private Sound positiveEventSound;
     private Sound hiddenEventSound;
@@ -54,7 +53,6 @@ public class AudioManager {
             gameMusic.setVolume(currentVolume);
             
             // Load sound effects
-            clickSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
             negativeEventSound = Gdx.audio.newSound(Gdx.files.internal("NegMus.mp3"));
             positiveEventSound = Gdx.audio.newSound(Gdx.files.internal("PosMus.mp3"));
             hiddenEventSound = Gdx.audio.newSound(Gdx.files.internal("HidMus.mp3"));
@@ -108,12 +106,6 @@ public class AudioManager {
         }
     }
     
-    //click sound effect
-    public void playClickSound() {
-        if (clickSound != null) {
-            clickSound.play(currentVolume);
-        }
-    }
     
     // Stops the currently playing music
     private void stopCurrentMusic() {
@@ -163,7 +155,6 @@ public class AudioManager {
         
         if (menuMusic != null) menuMusic.dispose();
         if (gameMusic != null) gameMusic.dispose();
-        if (clickSound != null) clickSound.dispose();
         if (negativeEventSound != null) negativeEventSound.dispose();
         if (positiveEventSound != null) positiveEventSound.dispose();
         if (hiddenEventSound != null) hiddenEventSound.dispose();

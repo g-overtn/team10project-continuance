@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 /**
  * Represents the Game Over screen, shown when the player either wins or loses.
  * Displays the appropriate background, score, and time information.
@@ -41,13 +40,15 @@ public class GameOverScreen implements Screen {
         this.font = game.font;
         this.winScreen = new Texture("WinScreen.png");
         this.loseScreen = new Texture("LoseScreen.png");
+
+        // save achievements
+        game.achievementManager.saveAchievements();
     }
 
     @Override
     public void render(float delta) {
         // Return to main menu if ESC pressed.
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            AudioManager.getInstance().playClickSound();
             game.setScreen(new MainMenu(game));
             dispose();
             return;
@@ -100,7 +101,7 @@ public class GameOverScreen implements Screen {
 
     /**
      * Renders the losing screen with the lose background.
-     * 
+     *
      * Doesn't display the score or time.
      */
     private void renderLoseScreen(){
@@ -116,7 +117,7 @@ public class GameOverScreen implements Screen {
     /**
      * Dispose of textures used by the screen.
      */
-    @Override public void dispose() { 
+    @Override public void dispose() {
         winScreen.dispose();
         loseScreen.dispose();
     }

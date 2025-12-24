@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Represents the player character.
- * 
+ *
  * Handles player rendering, movement and collision detection.
  */
 public class Player {
@@ -19,6 +19,15 @@ public class Player {
     private boolean movementEnabled;
 
     private final float EDGE_LIMIT = 1f;
+
+    // EVENT TOTALS
+    // types of events stored as vector2, (interacted_count, total_count)
+    // spawning an event of that type: .y++
+    // interacting with an event of that type: .x++
+    public Vector2 positive_events = new Vector2(0, 0);
+    public Vector2 negative_events = new Vector2(0, 0);
+    public Vector2 hidden_events =  new Vector2(0, 0);
+    public Vector2 total_events = new Vector2(0, 0);
 
     /**
      * Creates a new player instance.
@@ -55,7 +64,7 @@ public class Player {
 
     /**
      * Handles player movement and constrains movement to within screen edge boundaries.
-     * 
+     *
      * Uses arrow key input. Center of player remains at least {@link #EDGE_LIMIT} units from the world edges.
      * @param delta The time in seconds since the last frame.
      */
@@ -117,7 +126,7 @@ public class Player {
 
     /**
      * Dispose of player texture to free GPU memory.
-     * 
+     *
      * Should be called when the GameScreen is disposed.
      */
     public void dispose()
@@ -136,7 +145,7 @@ public class Player {
     }
 
     /**
-     * Sets the center position of the player sprite. 
+     * Sets the center position of the player sprite.
      * @param x The x-coord of the new position.
      * @param y The y-coord of the new position.
      */

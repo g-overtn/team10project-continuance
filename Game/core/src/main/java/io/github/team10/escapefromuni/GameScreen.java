@@ -7,32 +7,32 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+
 /**
  * This class will deal with the 'main' game logic.
- * 
- * For example, creating the player, calling initialiseMap() on the RoomManager.
- * Will handle rendering of game textures using the SpriteBatch stored in EscapeGame. 
+ * * For example, creating the player, calling initialiseMap() on the RoomManager.
+ * Will handle rendering of game textures using the SpriteBatch stored in EscapeGame.
  */
 public class GameScreen extends ScreenAdapter {
     final EscapeGame game;
     Player player;
     RoomManager roomManager;
     ScoreManager scoreManager;
-    Timer timer; 
+    Timer timer;
 
     private final BitmapFont font;
-    private boolean isPaused;
+
+    public boolean isPaused;
 
     public GameScreen(final EscapeGame game)
     {
         this.game = game;
-        timer = new Timer(); 
+        timer = new Timer();
         scoreManager = new ScoreManager();
 
         player = new Player(3f, 1f, 1f, game);
         roomManager = new RoomManager(game, player, scoreManager, timer);
         roomManager.initialiseMap();
-
 
         font = game.font;
         isPaused = false;
@@ -48,6 +48,27 @@ public class GameScreen extends ScreenAdapter {
         return;
     }
 
+    // NEW
+    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+        game.achievementManager.initAchievements();
+    }
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+        game.achievementManager.loadAchievements();
+    }
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+        game.achievementManager.saveAchievements();
+    }
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
+        game.achievementManager.printAchievements();
+    }
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
+        System.out.println(player.positive_events + " : " + player.negative_events + " : " + player.hidden_events + " : " + player.total_events);
+    }
+
     if (!isPaused) {
         update(delta);
         CheckLose();
@@ -57,8 +78,9 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void CheckLose()
-    {   
+    {
         if (timer.hasReached(300)) { // 300 seconds = 5 minutes
+            game.achievementManager.check_ZERO_TIMER();
             game.setScreen(new GameOverScreen(game, false, timer, scoreManager));
         }
     }
@@ -69,9 +91,8 @@ public class GameScreen extends ScreenAdapter {
     }
 
     /**
-     * Performs game logic each frame. 
-     * 
-     * Always called before drawing textures.
+     * Performs game logic each frame.
+     * * Always called before drawing textures.
      * @param delta float representing the time since the last frame.
      */
     private void update(float delta)
@@ -89,7 +110,7 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.BLACK);
         game.viewport.apply();
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
-		game.batch.begin();
+        game.batch.begin();
 
         // World Rendering
         roomManager.drawMap();
@@ -118,10 +139,9 @@ public class GameScreen extends ScreenAdapter {
     @Override public void show() {
         AudioManager.getInstance().playGameMusic();
         isPaused = false;
-    } 
+    }
     @Override public void resize(int width, int height) {}
     @Override public void pause() {}
     @Override public void resume() {}
     @Override public void hide() {}
 }
-

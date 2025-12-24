@@ -18,16 +18,46 @@ public abstract class Event {
         this.type = type;
         this.player = player;
         this.game = game;
+
+        switch (this.type) {
+            case POSITIVE:
+                player.positive_events.y++;
+                break;
+            case NEGATIVE:
+                player.negative_events.y++;
+                break;
+            case HIDDEN:
+                player.hidden_events.y++;
+                break;
+        }
+        player.total_events.y++;
     }
 
     /**
      * Called when the event starts (e.g. the player enters the room).
      */
-    public abstract void startEvent();
+    public void startEvent() {
+        switch (this.type) {
+            case POSITIVE:
+                player.positive_events.x++;
+                game.achievementManager.check_POSITIVE_EVENTS(player.positive_events.x, player.positive_events.y);
+                break;
+            case NEGATIVE:
+                player.negative_events.x++;
+                game.achievementManager.check_NEGATIVE_EVENTS(player.negative_events.x, player.negative_events.y);
+                break;
+            case HIDDEN:
+                player.hidden_events.x++;
+                game.achievementManager.check_HIDDEN_EVENTS(player.hidden_events.x, player.hidden_events.y);
+                break;
+        }
+        player.total_events.x++;
+        game.achievementManager.check_ALL_EVENTS(player.total_events.x, player.total_events.y);
+    }
 
     /**
-     * Called when the event should end. 
-     * 
+     * Called when the event should end.
+     *
      * Disposes of resources and restores normal gameplay.
      */
     public abstract void endEvent();
