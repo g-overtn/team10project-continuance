@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 
+
+
 /**
  * Positive event where the player encounters a Greggs sausage roll.
  * * When the player runs into the sausage roll, they gain a speed increase.
@@ -91,10 +93,10 @@ public class EventGreggs extends Event implements Disposable {
     @Override
     public void drawUI() {}
 
-    
     @Override
     public void dispose() {
-        if (greggsTexture != null){
+        if (greggsTexture != null)
+        {
             greggsTexture.dispose();
         }
     }

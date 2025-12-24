@@ -29,7 +29,7 @@ public class EscapeGame extends Game {
     public FitViewport uiViewport;
 
     // NEW AchievementManager, placed in here as easier to access from areas of the game
-    public final AchievementManager achievementManager = new AchievementManager();
+    public AchievementManager achievementManager = new AchievementManager();
 
     @Override
     public void create() {
