@@ -20,7 +20,6 @@ public class DoorTest extends HeadlessTestRunner {
     
     @Before
     public void setUp() {
-        // Mock RoomManager and EscapeGame for testing all of the functionality of the door.
         mockRoomManager = mock(RoomManager.class);
         mockGame = mock(EscapeGame.class);
         mockRoomManager.game = mockGame;
@@ -30,41 +29,38 @@ public class DoorTest extends HeadlessTestRunner {
     
     @After
     public void tearDown() {
-        // Delete the door object after the test and clean slate.
         if (door != null) {
             door.dispose();
         }
     }
     
     @Test
-    public void DoorInitialisation() {
-        // Test that the door is initialised correctly
-        // We are checking all of the attributes to ebsure that they have the correct starting values.
+    public void DoorInit() {
+        // check attributes set up. 
         assertNotNull("Door should be initialised", door);
         assertEquals("Door direction should be NORTH", DoorDirection.NORTH, door.direction);
         assertTrue("Door should be active initially", door.isActive);
-        assertNotNull("Door texture should not be null", door.doorTexture);
-        assertNotNull("Door sprite should not be null", door.doorSprite);
+        assertNotNull("Door texture should exist", door.doorTexture);
+        assertNotNull("Door sprite should exist", door.doorSprite);
     }
     
     @Test
-    public void DoorPosition() {
-        // Test that the door is positioned correctly on the map.
+    public void DoorPos() {
+        // Door positioning on screen
         assertEquals("Door X position should be 5f", 5f, door.doorSprite.getX(), 0.01f);
         assertEquals("Door Y position should be 5f", 5f, door.doorSprite.getY(), 0.01f);
     }
     
     @Test
     public void DoorSize() {
-        // Test that the door has correct size (height and width)
+        // door size.
         assertEquals("Door width should be 1f", 1f, door.doorSprite.getWidth(), 0.01f);
         assertEquals("Door height should be 1f", 1f, door.doorSprite.getHeight(), 0.01f);
     }
     
     @Test
-    public void SetActive() {
-        // Test setting the door active/inactive
-        // We test the open and close functionality.
+    public void setActive() {
+        // Change door state
         door.setActive(false);
         assertFalse("Door should be inactive after setActive(false)", door.isActive);
         
@@ -73,9 +69,8 @@ public class DoorTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void GetActive() {
-        // Test getting the door active state
-        // Testing both possible states to ensure everything is in order.
+    public void getActive() {
+        // get door state
         assertTrue("getActive should return true initially", door.getActive());
         
         door.setActive(false);
@@ -84,7 +79,7 @@ public class DoorTest extends HeadlessTestRunner {
     
     @Test
     public void DoorDirections() {
-        // Making sure we can make doors for different directions
+        // enum check + door in all directions
         Door northDoor = new Door(mockRoomManager, DoorDirection.NORTH, 0f, 0f);
         Door eastDoor = new Door(mockRoomManager, DoorDirection.EAST, 0f, 0f);
         Door southDoor = new Door(mockRoomManager, DoorDirection.SOUTH, 0f, 0f);
@@ -102,8 +97,8 @@ public class DoorTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void RoomManagerReference() {
-        // Test that the door has a reference to the RoomManager
+    public void RoomManagerRef() {
+        // link between manager and door classes
         assertSame("Door should store reference to RoomManager", mockRoomManager, door.roomManager);
     }
 }

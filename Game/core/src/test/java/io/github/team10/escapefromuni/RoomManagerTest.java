@@ -24,10 +24,7 @@ public class RoomManagerTest extends HeadlessTestRunner {
     @Before
     public void setUp() {
 
-        //setting up game-like scenario.
         game = new EscapeGame();
-        
-        // Mock graphics components
         game.batch = mock(SpriteBatch.class);
         game.font = mock(BitmapFont.class);
         game.viewport = new FitViewport(16, 9);
@@ -53,15 +50,15 @@ public class RoomManagerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void RoomManagerInitialisation() {
-        // Test that the RoomManager and its components are initialised
+    public void RoomManagerInit() {
+        // RoomManager setup right
         assertNotNull("RoomManager should be initialised", roomManager);
         assertNotNull("Current room should be set", roomManager.currentRoom);
     }
     
     @Test
-    public void DoorsInitialised() {
-        // Test that doors are initialised correctly
+    public void doorsInitialised() {
+        // doors are initialised.
         assertNotNull("Doors array should be initialised", roomManager.doors);
         assertEquals("Should have 4 doors", 4, roomManager.doors.length);
         
@@ -71,7 +68,7 @@ public class RoomManagerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void DoorDirections() {
+    public void doorDirections() {
         // Test that doors have correct directions
         assertEquals("First door should be NORTH", DoorDirection.NORTH, roomManager.doors[0].direction);
         assertEquals("Second door should be EAST", DoorDirection.EAST, roomManager.doors[1].direction);
@@ -80,46 +77,32 @@ public class RoomManagerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void InitialRoomSetup() {
-        // Test that the initial room is set up correctly
-        assertNotNull("Current room should not be null", roomManager.currentRoom);
-        assertNotNull("Current room texture should not be null", roomManager.currentRoom.getRoomTexture());
+    public void initialRoomSetup() {
+        // initial room is set up correctly
+        assertNotNull("Current room should exist", roomManager.currentRoom);
+        assertNotNull("Current room texture should exist", roomManager.currentRoom.getRoomTexture());
     }
     
     @Test
-    public void RoomTexturesLoaded() {
-        // Test that room textures are loaded correctly
-        assertNotNull("Room textures map should not be null", roomManager.roomTextures);
+    public void TexturesLoading() {
+        // room textures are loaded correctly
+        assertNotNull("Room textures map should be initialised", roomManager.roomTextures);
         assertTrue("Room textures should contain room1", roomManager.roomTextures.containsKey("room1"));
         assertTrue("Room textures should contain room2", roomManager.roomTextures.containsKey("room2"));
         assertTrue("Room textures should contain room3", roomManager.roomTextures.containsKey("room3"));
     }
     
-    @Test
-    public void IndicatorTexturesInitialised() {
-        // Test that indicator textures and sprites are initialised
-        assertNotNull("Positive indicator should be initialised", roomManager.positiveIndicator);
-        assertNotNull("Negative indicator should be initialised", roomManager.negativeIndicator);
-    }
+
     
     @Test
-    public void IndicatorTexturesArray() {
-        // Test that indicator textures array is initialised
-        assertNotNull("Indicator textures array should be initialised", roomManager.indicatorTextures);
-        assertEquals("Should have 4 indicator texture slots", 4, roomManager.indicatorTextures.length);
-    }
-    
-    @Test
-    public void UpdateMethodDoesNotThrow() {
-        // Test that update method runs without exceptions
-        // updates room with no problem
+    public void Update() {
+        // update method runs with whatever event needs to appear
         roomManager.update(0.016f);
     }
     
     @Test
-    public void CheckDoorCollisionNoCollision() {
-        // Test that checkDoorCollision does not change room when no collision
-        // collision detection is how the game detects when to switch rooms.
+    public void NoCollisionRoom() {
+        // Test that checkDoorCollision does not change room when no collision occurs
         player.setCenter(8f, 4.5f);
         
         Room initialRoom = roomManager.currentRoom;

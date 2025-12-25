@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the ScoreManager class.
- * basically just testing score updates happen and preparing for every eventuality. 
  */
 public class ScoreManagerTest extends HeadlessTestRunner {
     
@@ -24,14 +23,14 @@ public class ScoreManagerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void IncreaseScore() {
+    public void increaseScore() {
         // Test increasing the score
         scoreManager.increaseScore(100);
         assertEquals("Score should be 100", 100, scoreManager.getScore());
     }
     
     @Test
-    public void MultipleIncreases() {
+    public void multipleIncreases() {
         // Test multiple score increases
         scoreManager.increaseScore(50);
         scoreManager.increaseScore(75);
@@ -55,7 +54,7 @@ public class ScoreManagerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void CalculateFinalScoreNoTimeLeft() {
+    public void calculateFinalScoreNoTime() {
         // Test final score calculation with no time left
         scoreManager.increaseScore(500);
         int finalScore = scoreManager.CalculateFinalScore(0);

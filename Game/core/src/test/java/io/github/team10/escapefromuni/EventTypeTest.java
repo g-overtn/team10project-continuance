@@ -10,47 +10,47 @@ import static org.junit.Assert.*;
 public class EventTypeTest {
     
     @Test
-    public void EventTypeValues() {
-        // Test the number of enum values
+    public void EventTypes() {
+        // Total number of enum values
         EventType[] types = EventType.values();
         assertEquals("EventType should have 4 values", 4, types.length);
     }
     
     @Test
-    public void EventTypePositive() {
-        // Test the POSITIVE enum value
+    public void EventTypePos() {
+        // POSITIVE enum value
         EventType type = EventType.POSITIVE;
-        assertNotNull("POSITIVE should not be null", type);
-        assertEquals("POSITIVE should equal itself", EventType.POSITIVE, type);
+        assertNotNull("Should set up a positive event", type);
+        assertEquals("POSITIVE event", EventType.POSITIVE, type);
     }
     
     @Test
-    public void EventTypeNegative() {
-        // Test the NEGATIVE enum value
+    public void EventTypeNeg() {
+        // NEGATIVE enum value
         EventType type = EventType.NEGATIVE;
-        assertNotNull("NEGATIVE should not be null", type);
-        assertEquals("NEGATIVE should equal itself", EventType.NEGATIVE, type);
+        assertNotNull("Should set up a negative event", type);
+        assertEquals("NEGATIVE event", EventType.NEGATIVE, type);
     }
     
     @Test
     public void EventTypeHidden() {
-        // Test the HIDDEN enum value
+        // HIDDEN enum value
         EventType type = EventType.HIDDEN;
-        assertNotNull("HIDDEN should not be null", type);
-        assertEquals("HIDDEN should equal itself", EventType.HIDDEN, type);
+        assertNotNull("Should set up hidden event", type);
+        assertEquals("Even is of type hidden", EventType.HIDDEN, type);
     }
     
     @Test
     public void EventTypeNone() {
-        // Test the NONE enum value
+        // NONE enum value
         EventType type = EventType.NONE;
-        assertNotNull("NONE should not be null", type);
-        assertEquals("NONE should equal itself", EventType.NONE, type);
+        assertNotNull("Should be a blank Event", type);
+        assertEquals("Regular event", EventType.NONE, type);
     }
     
     @Test
-    public void ValueOf() {
-        // Test the valueOf method for all enum values
+    public void enumVals() {
+        // valueOf method for all enum values
         assertEquals(EventType.POSITIVE, EventType.valueOf("POSITIVE"));
         assertEquals(EventType.NEGATIVE, EventType.valueOf("NEGATIVE"));
         assertEquals(EventType.HIDDEN, EventType.valueOf("HIDDEN"));
@@ -58,9 +58,8 @@ public class EventTypeTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void ValueOfInvalid() {
+    public void InvalidEvent() {
         // Test that valueOf throws an exception for an invalid name
-        // Making sure only valid enums are registered.
         EventType.valueOf("INVALID");
     }
 }

@@ -18,7 +18,7 @@ public class TimerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void TimerInitialisation() {
+    public void TimerInit() {
         // Test that the timer is initialised correctly
         assertEquals("Initial time should be 0", 0, timer.getTimeSeconds());
         assertEquals("Initial time left should be 300 seconds", 300, timer.getTimeLeftSeconds());
@@ -45,7 +45,7 @@ public class TimerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void TimerHasReached() {
+    public void TimeTicking() {
         // Test the hasReached method
         assertFalse("Timer should not have reached 10 seconds", timer.hasReached(10));
         
@@ -55,7 +55,7 @@ public class TimerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void TimerFinished() {
+    public void TimeDone() {
         // Test timer finishing after 300 seconds
         assertFalse("Timer should not be finished", timer.isFinished());
         
@@ -65,7 +65,7 @@ public class TimerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void TimerOverflow() {
+    public void NegTime() {
         // Test that time left does not go negative
         timer.update(350.0f);
         assertTrue("Timer should be finished", timer.isFinished());
@@ -73,7 +73,7 @@ public class TimerTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void TimerReset() {
+    public void Reset() {
         // Test resetting the timer
         timer.update(50.0f);
         timer.reset();

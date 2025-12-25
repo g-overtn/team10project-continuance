@@ -2,6 +2,7 @@ package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.junit.After;
 import org.junit.Before;
@@ -12,12 +13,11 @@ import static org.mockito.Mockito.*;
 
 /**
  * Tests for the GameOverScreen class.
- * We are setting up mock objects for the graphics components to test them out
- * 
+ * Tests the game over screen functionality for both win and lose conditions.
+ * We test both win and lose screens to ensure they behave correctly in either outcome.
  */
 public class GameOverScreenTest extends HeadlessTestRunner {
     
-    // initial test objects to mimic an in-game scenario
     private GameOverScreen winScreen;
     private GameOverScreen loseScreen;
     private EscapeGame mockGame;
@@ -35,13 +35,17 @@ public class GameOverScreenTest extends HeadlessTestRunner {
         mockFont = mock(BitmapFont.class);
         mockUIViewport = mock(FitViewport.class);
         mockUICamera = mock(OrthographicCamera.class);
+        mockGame.achievementManager = new AchievementManager();
+        mockGame.achievementManager.initAchievements();
         
+
+
         when(mockUIViewport.getWorldWidth()).thenReturn(1920f);
         when(mockUIViewport.getWorldHeight()).thenReturn(1080f);
-        
         mockGame.font = mockFont;
         mockGame.uiViewport = mockUIViewport;
         mockGame.uiCamera = mockUICamera;
+        mockGame.batch = mock(SpriteBatch.class);
         
         when(mockTimer.getTimeSeconds()).thenReturn(120);
         when(mockTimer.getTimeLeftSeconds()).thenReturn(180);
@@ -53,7 +57,6 @@ public class GameOverScreenTest extends HeadlessTestRunner {
     
     @After
     public void tearDown() {
-        // get rid of both screens. We need to ensure that both the loser and winner screens work which is why two screens have been disposed of.
         if (winScreen != null) {
             winScreen.dispose();
         }
@@ -63,48 +66,48 @@ public class GameOverScreenTest extends HeadlessTestRunner {
     }
     
     @Test
-    public void WinScreenInitialisation() {
-        // Making sure that our WinScreen object is set up right 
+    public void WinScreenInit() {
+        // Win screen setup
         assertNotNull("Win screen should be initialised", winScreen);
     }
     
     @Test
-    public void LoseScreenInitialisation() {
-        // Making sure that our LoseScreen is set up right. 
+    public void LoseScreenInit() {
+        // Lose screen setup.
         assertNotNull("Lose screen should be initialised", loseScreen);
     }
     
     @Test
-    public void ShowMethod() {
-        // Testing whether the show method works for both screens
+    public void Show() {
+        // show() test
         winScreen.show();
         loseScreen.show();
     }
     
     @Test
-    public void ResizeMethod() {
-        // Testing the resize method for both screens
+    public void Resize() {
+        // resize windows
         winScreen.resize(800, 600);
         loseScreen.resize(800, 600);
     }
     
     @Test
-    public void PauseMethod() {
-        // Test if both screens pause
+    public void Pause() {
+        // pause() method
         winScreen.pause();
         loseScreen.pause();
     }
     
     @Test
-    public void ResumeMethod() {
-        // Screen resume testing method
+    public void Resume() {
+        // resume() method
         winScreen.resume();
         loseScreen.resume();
     }
     
     @Test
-    public void HideMethod() {
-        // Testing whether we can hide screens to move to something else. 
+    public void Hide() {
+        // hide() method
         winScreen.hide();
         loseScreen.hide();
     }

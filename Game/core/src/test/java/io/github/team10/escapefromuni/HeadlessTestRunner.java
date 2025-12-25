@@ -12,9 +12,7 @@ import org.mockito.Mockito;
 
 /**
  * Base class for all headless LibGDX tests with asset loading support.
- * We have derived all of our automated tests from this.
- * For further tests, we simply extend from this class and then run all of our tests using the @Test annotation as normal.
- * This class sets up a headless application before any tests are run and cleans it up afterward.
+ * This sets out the base design for the entire test suite. All of our tests are inheriting methods from the functions in this file. 
  */
 public abstract class HeadlessTestRunner {
     private static Application application;
@@ -28,7 +26,7 @@ public abstract class HeadlessTestRunner {
         HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
         
         // A script exists in the CI pipeline to fetch all of the images and other assets so this shouldn't be an issue when running tests that need them (in theory at least), but there's no need to make any changes here.
-        // If there's any issues with the fetching process, just edit the YAMl and it should work with no issues. 
+        // If there's any issues with the fetching process, just edit the YAML and it should work with no issues. 
         // Otherwise we are going to have to mess around with this config below. 
         application = new HeadlessApplication(new ApplicationListener() {
             @Override public void create() {}
