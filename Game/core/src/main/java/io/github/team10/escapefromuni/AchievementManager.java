@@ -36,7 +36,7 @@ public class AchievementManager {
             System.out.println("Achievements are already loaded!");
         } else {
             try {
-                FileHandle file = Gdx.files.external("achievements.json");
+                FileHandle file = Gdx.files.external("achievements.txt");
                 String[] text = file.readString().split("\n");
                 for (String substring : text) {
                     String[] values = substring.split("\\|");
@@ -59,7 +59,7 @@ public class AchievementManager {
             text.append(a).append("\n");
         }
 
-        FileHandle file = Gdx.files.external("achievements.json");
+        FileHandle file = Gdx.files.external("achievements.txt");
         file.writeString(text.toString(), false);
     }
 

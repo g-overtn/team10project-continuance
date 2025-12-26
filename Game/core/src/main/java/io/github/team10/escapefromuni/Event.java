@@ -13,8 +13,7 @@ public abstract class Event {
     /**
      * Create a new event, of a given type.
      */
-    public Event(EventType type, Player player, EscapeGame game)
-    {
+    public Event(EventType type, Player player, EscapeGame game) {
         this.type = type;
         this.player = player;
         this.game = game;
