@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class HiddenEvent extends Event implements Disposable {
 
-    private HiddenEventType type;
+    private final HiddenEventType type;
     public boolean hidden = true;
     private final Texture hidden_texture;
     private final Texture texture;

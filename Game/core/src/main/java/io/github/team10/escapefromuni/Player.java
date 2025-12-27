@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Represents the player character.
- *
  * Handles player rendering, movement and collision detection.
  */
 public class Player {
@@ -64,7 +63,6 @@ public class Player {
 
     /**
      * Handles player movement and constrains movement to within screen edge boundaries.
-     *
      * Uses arrow key input. Center of player remains at least {@link #EDGE_LIMIT} units from the world edges.
      * @param delta The time in seconds since the last frame.
      */
@@ -127,22 +125,11 @@ public class Player {
 
     /**
      * Dispose of player texture to free GPU memory.
-     *
      * Should be called when the GameScreen is disposed.
      */
     public void dispose()
     {
         playerTexture.dispose();
-    }
-
-    /**
-     * Set the position of the player sprite, updating from the bottom left corner.
-     * @param x The x-coord of new position.
-     * @param y The y-coord of new position.
-     */
-    public void setPosition(float x, float y)
-    {
-        playerSprite.setPosition(x, y);
     }
 
     /**
