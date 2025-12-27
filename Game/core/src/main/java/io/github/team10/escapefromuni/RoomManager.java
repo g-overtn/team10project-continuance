@@ -65,6 +65,8 @@ public class RoomManager {
         Room room9 = new Room(roomTextures.get("room9")); // Contains Exit
 
         // NEW initialising rooms
+        // yes there are rooms missing (24, 26, 30, 31) but i cba to go through and change all the room numbers
+        // this works fine
         Room room10 = new Room(roomTextures.get("room6")); // EventSYS2
         Room room11 = new Room(roomTextures.get("room8"));
         Room room12 = new Room(roomTextures.get("room7")); // EventBob
@@ -79,14 +81,10 @@ public class RoomManager {
         Room room21 = new Room(roomTextures.get("room5"));
         Room room22 = new Room(roomTextures.get("room3"));
         Room room23 = new Room(roomTextures.get("room1")); // EventNetworking
-        Room room24 = new Room(roomTextures.get("room1"));
-        Room room25 = new Room(roomTextures.get("room5"));
-        Room room26 = new Room(roomTextures.get("room7")); // EventClubNight
+        Room room25 = new Room(roomTextures.get("room7"));
         Room room27 = new Room(roomTextures.get("room8")); // EventDominoes
         Room room28 = new Room(roomTextures.get("room3"));
         Room room29 = new Room(roomTextures.get("room6")); // EventENG1
-        Room room30 = new Room(roomTextures.get("room4"));
-        Room room31 = new Room(roomTextures.get("room9")); // EventNegative
 
         // Exit room is not actually displayed - game ends as soon as player steps inside.
         Room exit = new Room(roomTextures.get("room1"), true);
@@ -166,7 +164,6 @@ public class RoomManager {
         room21.addAdjacent(room20,  DoorDirection.SOUTH);
         room21.addAdjacent(room29,  DoorDirection.WEST);
 
-        room22.addAdjacent(room24,  DoorDirection.NORTH);
         room22.addAdjacent(room3,  DoorDirection.EAST);
         room22.addAdjacent(room1,  DoorDirection.SOUTH);
         room22.addAdjacent(room23,  DoorDirection.WEST);
@@ -176,15 +173,8 @@ public class RoomManager {
         room23.addAdjacent(room21,  DoorDirection.SOUTH);
         room23.addAdjacent(room28,  DoorDirection.WEST);
 
-        room24.addAdjacent(room26,  DoorDirection.NORTH);
-        room24.addAdjacent(room22,  DoorDirection.SOUTH);
-        room24.addAdjacent(room25,  DoorDirection.WEST);
-
-        room25.addAdjacent(room24,  DoorDirection.EAST);
         room25.addAdjacent(room23,  DoorDirection.SOUTH);
         room25.addAdjacent(room27,  DoorDirection.WEST);
-
-        room26.addAdjacent(room24,  DoorDirection.SOUTH);
 
         room27.addAdjacent(room25,  DoorDirection.EAST);
         room27.addAdjacent(room28,  DoorDirection.SOUTH);
@@ -192,31 +182,23 @@ public class RoomManager {
         room28.addAdjacent(room27,  DoorDirection.NORTH);
         room28.addAdjacent(room23,  DoorDirection.EAST);
         room28.addAdjacent(room29,  DoorDirection.SOUTH);
-        room28.addAdjacent(room30,  DoorDirection.WEST);
 
         room29.addAdjacent(room28,  DoorDirection.NORTH);
         room29.addAdjacent(room21,  DoorDirection.EAST);
 
-        room30.addAdjacent(room28,  DoorDirection.EAST);
-        room30.addAdjacent(room31,  DoorDirection.WEST);
-
-        room31.addAdjacent(room30,  DoorDirection.EAST);
-
         // Initialise Events
-        room3.setEvent(new EventGreggs(player, game));
-        room5.setEvent(new EventTHE3(player, game, scoreManager));
-        room7.setEvent(new EventLongboi(player, game));
-        //room10.setEvent(new EventSYS2(player, game, scoreManager));
-        //room12.setEvent(new EventBob(player, game));
-        //room15.setEvent(new EventMonster(player, game));
-        //room17.setEvent(new EventCupNoodles(player, game));
-        //room18.setEvent(new EventInverse(player, game));
-        //room19.setEvent(new EventPlacement(player, game, scoreManager));
-        //room23.setEvent(new EventNetworking(player, game));
-        //room26.setEvent(new EventClubNight(player, game));
-        //room27.setEvent(new EventDominoes(player, game));
-        //room29.setEvent(new EventENG1(player, game, scoreManager));
-        //room31.setEvent(new EventNegative(player, game));
+        room3.setEvent(new PositiveEvent(PositiveEventType.GREGGS, player, game, scoreManager));
+        room5.setEvent(new NegativeEvent(NegativeEventType.THE3, player, game, scoreManager));
+        room7.setEvent(new HiddenEvent(HiddenEventType.LONGBOI, player, game));
+        room10.setEvent(new NegativeEvent(NegativeEventType.SYS2, player, game, scoreManager));
+        room12.setEvent(new HiddenEvent(HiddenEventType.BOB, player, game));
+        room15.setEvent(new PositiveEvent(PositiveEventType.MONSTER, player, game, scoreManager));
+        room17.setEvent(new PositiveEvent(PositiveEventType.CUP_NOODLES, player, game, scoreManager));
+        room18.setEvent(new HiddenEvent(HiddenEventType.INVERSE_CONTROLS, player, game));
+        room19.setEvent(new NegativeEvent(NegativeEventType.JOB, player, game, scoreManager));
+        room23.setEvent(new PositiveEvent(PositiveEventType.NETWORKING, player, game, scoreManager));
+        room27.setEvent(new PositiveEvent(PositiveEventType.PIZZA, player, game, scoreManager));
+        room29.setEvent(new NegativeEvent(NegativeEventType.ENG1, player, game, scoreManager));
 
         currentRoom = room1;
         updateDoors(currentRoom);

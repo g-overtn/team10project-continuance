@@ -173,4 +173,16 @@ public class Player {
     {
         speed += speedIncrease;
     }
+
+    /**
+     * Returns the speed of the player.
+     * @return the speed of the player.
+     */
+    public float getSpeed() { return speed; }
+
+    /**
+     * Set the player speed to a designated amount.
+     * @param speed the value that player speed will be updated to.
+     */
+    public void setSpeed(float speed) { this.speed = speed;}
 }
