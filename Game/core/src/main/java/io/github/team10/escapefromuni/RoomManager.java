@@ -56,35 +56,35 @@ public class RoomManager {
         // Initialise all the rooms
         Room room1 = new Room(roomTextures.get("room1")); // Start
         Room room2 = new Room(roomTextures.get("room2"));
-        Room room3 = new Room(roomTextures.get("room3")); // EventGreggs
+        Room room3 = new Room(roomTextures.get("room3")); // Greggs
         Room room4 = new Room(roomTextures.get("room4"));
-        Room room5 = new Room(roomTextures.get("room5")); // EventTHE3
+        Room room5 = new Room(roomTextures.get("room5")); // THE3
         Room room6 = new Room(roomTextures.get("room6"));
-        Room room7 = new Room(roomTextures.get("room7")); // EventLongboi
+        Room room7 = new Room(roomTextures.get("room7")); // Longboi
         Room room8 = new Room(roomTextures.get("room8"));
         Room room9 = new Room(roomTextures.get("room9")); // Contains Exit
 
         // NEW initialising rooms
         // yes there are rooms missing (24, 26, 30, 31) but i cba to go through and change all the room numbers
         // this works fine
-        Room room10 = new Room(roomTextures.get("room6")); // EventSYS2
+        Room room10 = new Room(roomTextures.get("room6")); // SYS2
         Room room11 = new Room(roomTextures.get("room8"));
-        Room room12 = new Room(roomTextures.get("room7")); // EventBob
+        Room room12 = new Room(roomTextures.get("room7")); // Bob
         Room room13 = new Room(roomTextures.get("room3"));
         Room room14 = new Room(roomTextures.get("room9"));
-        Room room15 = new Room(roomTextures.get("room7")); // EventMonster
+        Room room15 = new Room(roomTextures.get("room7")); // Monster
         Room room16 = new Room(roomTextures.get("room5"));
-        Room room17 = new Room(roomTextures.get("room8")); // EventCupNoodles
-        Room room18 = new Room(roomTextures.get("room9")); // EventInverse
-        Room room19 = new Room(roomTextures.get("room6")); // EventPlacement
+        Room room17 = new Room(roomTextures.get("room8")); // CupNoodles
+        Room room18 = new Room(roomTextures.get("room9")); // Inverse
+        Room room19 = new Room(roomTextures.get("room6")); // Placement
         Room room20 = new Room(roomTextures.get("room9"));
         Room room21 = new Room(roomTextures.get("room5"));
         Room room22 = new Room(roomTextures.get("room3"));
-        Room room23 = new Room(roomTextures.get("room1")); // EventNetworking
+        Room room23 = new Room(roomTextures.get("room1")); // Networking
         Room room25 = new Room(roomTextures.get("room7"));
-        Room room27 = new Room(roomTextures.get("room8")); // EventDominoes
+        Room room27 = new Room(roomTextures.get("room8")); // Dominoes
         Room room28 = new Room(roomTextures.get("room3"));
-        Room room29 = new Room(roomTextures.get("room6")); // EventENG1
+        Room room29 = new Room(roomTextures.get("room6")); // ENG1
 
         // Exit room is not actually displayed - game ends as soon as player steps inside.
         Room exit = new Room(roomTextures.get("room1"), true);

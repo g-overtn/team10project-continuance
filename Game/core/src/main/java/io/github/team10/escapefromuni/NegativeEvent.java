@@ -54,8 +54,8 @@ public class NegativeEvent extends Event {
 
     @Override
     public void startEvent() {
-        super.startEvent();
         if (eventFinished) return;
+        super.startEvent();
 
         player.enableMovement(false);
         AudioManager.getInstance().playEventSound(EventType.NEGATIVE);
@@ -196,6 +196,56 @@ public class NegativeEvent extends Event {
         float falseTextX = rightButtonSprite.getX() + (rightButtonSprite.getWidth() - layout.width) / 2f;
         float falseTextY = rightButtonSprite.getY() + (rightButtonSprite.getHeight() + layout.height) / 2f;
         game.font.draw(game.batch, layout, falseTextX, falseTextY);
+    }
+
+    // getters and setters
+
+    /**
+     * Used for testing purposes.
+     * @return event type.
+     */
+    public NegativeEventType getType() {
+        return type;
+    }
+
+    /**
+     * Used for testing purposes.
+     * @return questionAnswered value.
+     */
+    public boolean getAnswered() {
+        return questionAnswered;
+    }
+
+    /**
+     * Used for testing purposes.
+     * @return a list contains all sprites.
+     */
+    public Sprite[] getSprites() {
+        return new Sprite[]{titlePanelSprite, questionPanelSprite, leftButtonSprite, rightButtonSprite};
+    }
+
+    /**
+     * Used for testing purposes.
+     * @return feedbackText value.
+     */
+    public String getFeedbackText() {
+        return feedbackText;
+    }
+
+    /**
+     * Used for testing purposes.
+     * @return questionText value.
+     */
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    /**
+     * Used for testing purposes.
+     * @return scoreManager object.
+     */
+    public ScoreManager getScoreManager() {
+        return scoreManager;
     }
 }
 

@@ -48,24 +48,8 @@ public class GameScreen extends ScreenAdapter {
         return;
     }
 
-    // NEW
+    // TEST
     if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-        game.achievementManager.initAchievements();
-    }
-
-    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-        game.achievementManager.loadAchievements();
-    }
-
-    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
-        game.achievementManager.saveAchievements();
-    }
-
-    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
-        game.achievementManager.printAchievements();
-    }
-
-    if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
         System.out.println(player.positive_events + " : " + player.negative_events + " : " + player.hidden_events + " : " + player.total_events);
     }
 

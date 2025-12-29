@@ -34,8 +34,8 @@ public class HiddenEvent extends Event implements Disposable {
 
     @Override
     public void startEvent() {
-        super.startEvent();
         if (eventFinished) return;
+        super.startEvent();
 
         sprite = new Sprite(hidden_texture);
         sprite.setSize(2f, 2f);
@@ -119,5 +119,15 @@ public class HiddenEvent extends Event implements Disposable {
         if (texture != null) texture.dispose();
         if (hidden_texture != null) hidden_texture.dispose();
         if (speech_panel_texture != null) speech_panel_texture.dispose();
+    }
+
+    // getters and setters
+
+    /**
+     * Used for testing purposes.
+     * @return event type.
+     */
+    public HiddenEventType getType() {
+        return type;
     }
 }

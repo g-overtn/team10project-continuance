@@ -11,10 +11,10 @@ public enum AchievementType {
         to not break it, don't include that in the enum type name pretty please :)
      */
 
-    POSITIVE_EVENTS("Living the life", "Interact with all positive events."),
-    NEGATIVE_EVENTS("Poor you...", "Interact with all negative events."),
-    HIDDEN_EVENTS("Eagle eyes", "Interact with all hidden events."),
-    ALL_EVENTS("I'm flattered...", "Interact with all events."),
+    POSITIVE_EVENTS("Living the life", "Interact with all positive events in one game."),
+    NEGATIVE_EVENTS("Poor you...", "Interact with all negative events in one game."),
+    HIDDEN_EVENTS("Eagle eyes", "Interact with all hidden events in one game."),
+    ALL_EVENTS("I'm flattered...", "Interact with all events in one game."),
     ZERO_TIMER("Are you still alive?", "Let the timer reach 0."),
     PASS("Library camper", "Pass the THE3 exam."),
     FAIL("Who's surprised?", "Fail the THE3 exam."),

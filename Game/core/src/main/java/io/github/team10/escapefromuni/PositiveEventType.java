@@ -9,6 +9,7 @@ public enum PositiveEventType {
         @Override
         void doThing(Player player, EscapeGame game, ScoreManager scoreManager) {
             // increases player speed by 2
+            System.out.println("GREGGS EVENT");
             player.increaseSpeed(2f);
         }
     },
@@ -16,6 +17,7 @@ public enum PositiveEventType {
         @Override
         void doThing(Player player, EscapeGame game, ScoreManager scoreManager) {
             // increases player speed by 50%
+            System.out.println("MONSTER EVENT");
             player.setSpeed(player.getSpeed() * 1.5f);
         }
     },
@@ -23,6 +25,7 @@ public enum PositiveEventType {
         @Override
         void doThing(Player player, EscapeGame game, ScoreManager scoreManager) {
             // gives the player +1000 score
+            System.out.println("CUP_NOODLES EVENT");
             scoreManager.increaseScore(1000);
         }
     },
@@ -30,6 +33,7 @@ public enum PositiveEventType {
         @Override
         void doThing(Player player, EscapeGame game, ScoreManager scoreManager) {
             // increases player speed by 1 and +500 score
+            System.out.println("NETWORKING EVENT");
             player.increaseSpeed(1f);
             scoreManager.increaseScore(500);
         }
@@ -38,6 +42,7 @@ public enum PositiveEventType {
         @Override
         void doThing(Player player, EscapeGame game, ScoreManager scoreManager) {
             // gives the player +1000 score
+            System.out.println("PIZZA EVENT");
             scoreManager.increaseScore(1000);
         }
     };

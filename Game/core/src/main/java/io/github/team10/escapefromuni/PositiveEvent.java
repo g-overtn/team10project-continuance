@@ -27,8 +27,8 @@ public class PositiveEvent extends Event implements Disposable {
 
     @Override
     public void startEvent() {
-        super.startEvent();
         if (eventFinished) return;
+        super.startEvent();
 
         sprite = new Sprite(texture);
         sprite.setSize(3f, 2f);
@@ -79,5 +79,31 @@ public class PositiveEvent extends Event implements Disposable {
     @Override
     public void dispose() {
         if (texture != null) { texture.dispose(); }
+    }
+
+    // getters and setters
+
+    /**
+     * Used for testing purposes.
+     * @return event type.
+     */
+    public PositiveEventType getType() {
+        return type;
+    }
+
+    /**
+     * Used for testing purposes.
+     * @return used value.
+     */
+    public boolean getUsed() {
+        return used;
+    }
+
+    /**
+     * Used for testing purposes.
+     * @return scoreManager object.
+     */
+    public ScoreManager getScoreManager() {
+        return scoreManager;
     }
 }
