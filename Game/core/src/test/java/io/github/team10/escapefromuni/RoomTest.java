@@ -2,7 +2,6 @@ package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.org.apache.xpath.internal.operations.Neg;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
