@@ -18,7 +18,7 @@ public class AudioManager {
     // Sound effects (played once when the even is triggered or button click)
     private Sound clickSound;
     private Sound negativeEventSound;
-    private Sound positiveEventSound;
+    private Sound positiveEventSound; 
     private Sound hiddenEventSound;
     
     

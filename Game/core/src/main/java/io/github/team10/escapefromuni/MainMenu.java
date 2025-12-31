@@ -1,5 +1,12 @@
 package io.github.team10.escapefromuni;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -27,12 +34,14 @@ public class MainMenu implements Screen {
     private Rectangle tutorialButton;
     private Rectangle settingsButton;
     private Rectangle exitButton;
+    private Rectangle leaderboardButton;
 
-    // hover states for nuttons
+    // hover states for buttons
     private boolean startHovered;
     private boolean tutorialHovered;
     private boolean settingsHovered;
     private boolean exitHovered;
+    private boolean leaderboardHovered;
 
     public MainMenu(EscapeGame game) {
         this.game = game;
@@ -40,7 +49,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void show() {
-        // backgrouns
+        // backgrounds
         backgroundImage = new Texture(Gdx.files.internal("mainmenu_background.png"));
         buttonTexture = new Texture(Gdx.files.internal("ButtonBG.png"));
 
@@ -60,10 +69,12 @@ public class MainMenu implements Screen {
         startButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 150f, buttonWidth, buttonHeight);
         tutorialButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 50f, buttonWidth, buttonHeight);
         settingsButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 50f, buttonWidth, buttonHeight);
-        exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 150f, buttonWidth, buttonHeight);
-
+        exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 350f, buttonWidth, buttonHeight);
+        leaderboardButton = new Rectangle(centerX-buttonWidth/ 2f, screenHeight / 2f - 150, buttonWidth, buttonHeight);
+        
         //menu music 
         AudioManager.getInstance().playMenuMusic();
+
     }
 
     // Draws the main menu UI
@@ -83,6 +94,7 @@ public class MainMenu implements Screen {
         drawButton(tutorialButton, "Tutorial", tutorialHovered);
         drawButton(settingsButton, "Settings", settingsHovered);
         drawButton(exitButton, "Exit", exitHovered);
+        drawButton(leaderboardButton, "Leaderboard", leaderboardHovered);
 
         game.batch.end();
     }
@@ -157,6 +169,13 @@ public class MainMenu implements Screen {
         Gdx.app.exit();
     }
 
+    public void onLeaderBoard() {
+        // open the leaderboard screen
+        System.out.println("Opening leaderboard...");
+        game.setScreen(new LeaderboardPage(game,this));
+        dispose();
+    }
+
     @Override
     public void render(float delta) {
 
@@ -167,7 +186,7 @@ public class MainMenu implements Screen {
         tutorialHovered = isButtonHovered(tutorialButton);
         settingsHovered = isButtonHovered(settingsButton);
         exitHovered = isButtonHovered(exitButton);
-
+        leaderboardHovered = isButtonHovered(leaderboardButton);
 
         if (isButtonClicked(startButton)) {
             onStartGame();
@@ -177,6 +196,8 @@ public class MainMenu implements Screen {
             onSettings();
         } else if (isButtonClicked(exitButton)) {
             onExit();
+        } else if (isButtonClicked(leaderboardButton)) {
+            onLeaderBoard();
         }
 
         // draw everything
@@ -204,4 +225,58 @@ public class MainMenu implements Screen {
         backgroundImage.dispose();
         buttonTexture.dispose();
     }
+
+    // public void writeScores(int newScore) {
+
+    //     try {
+            
+    //         BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
+
+    //         // contains data from old scoreboard to be used in comparison
+    //         ArrayList<String> oldRecords = new ArrayList<String>();
+    //         ArrayList<Integer> oldScores = new ArrayList<Integer>();
+
+    //         for (int i=0; i<5; i++) {
+    //             //entire record keeping CSV format
+    //             String temp = reader.readLine();
+    //             oldRecords.add(temp);
+
+    //             //grabs just the score  
+    //             try {
+    //                 Integer tempInt = Integer.parseInt(temp.split(",")[1]);
+    //                 oldScores.add(tempInt); 
+
+    //             } catch (Exception e) {
+    //                 System.err.println("Couldn't interpret scores file!");
+    //                 e.printStackTrace();
+    //             }
+    //         }
+
+    //         reader.close();
+
+    //         BufferedWriter writer = new BufferedWriter(new FileWriter("leaderboard.txt"));
+
+    //         Boolean placed = false;
+    //         for (int i=0; i<5; i++) {
+    //             if (oldScores.get(i) <= newScore && placed == false) {
+    //                 System.out.println(("Score was greater than score at position"+(i+1)));
+    //                 writer.write(("!!!,"+newScore+"\n"));
+    //                 writer.write((oldRecords.get(i)+"\n"));
+    //                 placed = true;
+    //             } else {
+    //                 writer.write((oldRecords.get(i)+"\n"));
+    //             }
+    //         }
+
+    //         System.out.println(oldScores);
+    //         System.out.println(oldRecords);
+
+    //         writer.close();
+
+    //     } catch (IOException e) {
+    //         System.err.println("Failed to overwrite scores!");
+    //         e.printStackTrace();
+    //     }
+    // }
+
 }

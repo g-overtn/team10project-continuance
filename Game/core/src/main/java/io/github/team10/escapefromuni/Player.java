@@ -54,7 +54,7 @@ public class Player {
     }
 
     /**
-     * Handles player movement and constrains movement to within screen edge boundaries.
+     * Handles player movement and constraints movement to within screen edge boundaries.
      * 
      * Uses arrow key input. Center of player remains at least {@link #EDGE_LIMIT} units from the world edges.
      * @param delta The time in seconds since the last frame.

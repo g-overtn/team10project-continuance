@@ -29,7 +29,7 @@ public class GameScreen extends ScreenAdapter {
         timer = new Timer(); 
         scoreManager = new ScoreManager();
 
-        player = new Player(3f, 1f, 1f, game);
+        player = new Player(100f, 1f, 1f, game);
         roomManager = new RoomManager(game, player, scoreManager, timer);
         roomManager.initialiseMap();
 
